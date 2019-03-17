@@ -1,0 +1,120 @@
+* {
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Microsoft YaHei', serif;
+
+}
+
+.login-center {
+    width: 100%;
+    height: 100%;
+    background: url("../img/1.jpeg");
+    background-size: cover;
+    padding: 0;
+    position: absolute;
+}
+
+.login-center .login-top {
+    width: 100%;
+    height: 60px;
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    background: #2D2D2D;
+    color: white;
+    font-size: 35px;
+}
+
+.login-center .login-top span {
+    margin-left: 5%;
+}
+
+.login-center .login-input {
+    float: right;
+    width: 400px;
+    height: 400px;
+    margin-top: 5%;
+    margin-right: 10%;
+    background: white;
+    box-shadow: 5px 5px 3px #333;
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+
+}
+
+.login-center .login-input .input-hd {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 400;
+    padding: 50px 0 50px;
+    color: black;
+}
+
+.login-center .login-input .input-text {
+    width: 300px;
+    border-bottom: 1px solid #999;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(153, 153, 153);
+    margin-bottom: 35px;
+    padding-bottom: 3px;
+}
+
+.login-center .login-input .input-text input {
+    border: 0;
+    outline: none;
+    padding: 5px 0;
+    width: 200px;
+    font-size: 16px;
+    background: none;
+}
+
+.login-center .login-input .input-button {
+    width: 300px;
+    margin-top: 20px;
+    height: 38px;
+    letter-spacing: 2px;
+    margin-left: 13%;
+    background-color: #2D87F0;
+    border: 0;
+}
+
+.login-center .login-input .input-button:hover {
+    color: #fff;
+    background-color: #57a3f3;
+    border: 1px solid #35A6F0;
+    border-color: #57a3f3;
+    cursor: pointer;
+}
+
+.login-center .text {
+
+    font-size: 13px;
+    text-align: center;
+    margin-top: 6%;
+}
+
+.login-center .text a {
+    text-decoration: none;
+    color: #2D87F0;
+}
+
+.login-center .text a:hover {
+    color: orangered;
+}
+
+.login-center .login-buttom {
+    width: 100%;
+    height: 40px;
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    background: #2D2D2D;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: #F5F5F5;
+    text-align: center;
+}
+

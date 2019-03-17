@@ -1,0 +1,467 @@
+* {
+    font-family: 'Microsoft YaHei', serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #35A6F0;
+}
+
+.center {
+    text-align: center;
+}
+
+.center-sec img {
+    display: block;
+    margin: 0 auto;
+}
+
+.gray {
+    color: #aaa;
+}
+
+.orange {
+    color: orange;
+}
+
+#head {
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+#head table {
+    width: 100%;
+}
+
+#head ul {
+    float: right;
+}
+
+#head li {
+    list-style: none;
+    float: left;
+    margin: 0 5px;
+}
+
+#head a {
+    font-size: 18px;
+    padding: 6px 18px;
+    font-weight: 400;
+    color: #fff;
+}
+
+#head a.on,
+#head a:hover {
+    color: #ffd862;
+}
+
+#head a:hover {
+    border-bottom: 2px solid #ffd862;
+}
+
+#head .reg {
+    background: #635834;
+    opacity: 1;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+#head .reg:hover {
+    background: #7E7143;
+    border: 0;
+    color: #fff;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    list-style: none;
+}
+
+#foot .main {
+    background: #2D2D2D;
+    padding: 35px 0;
+}
+
+#foot .main table {
+    width: 610px;
+    margin: 0 auto;
+}
+
+#foot .main th {
+    vertical-align: top;
+    width: 180px;
+}
+
+#foot .main td {
+    vertical-align: top;
+    padding-top: 8px;
+}
+
+#foot .main td .tit {
+    font-size: 18px;
+    padding-bottom: 50px;
+    color: #fafafa;
+}
+
+#foot .main td .gray {
+    color: #888;
+}
+
+#foot .main td:last-child {
+    border: 0;
+}
+
+#foot .main .contact {
+    color: #ddd;
+    padding: 5px 0;
+}
+
+#foot .main .contact li {
+    padding: 10px 0;
+    color: #bbb;
+    font-size: 14px;
+    display: block;
+    line-height: 1;
+}
+
+#foot .main .contact li:first-child {
+    padding-top: 0;
+}
+
+#foot .main .contact label {
+    color: #777;
+    font-size: 14px;
+    display: inline-block;
+    width: 90px;
+}
+
+#foot .main .menus {
+    text-align: center;
+    padding-bottom: 32px;
+    line-height: 1;
+    border-bottom: 1px solid #383838;
+    width: 1000px;
+    margin: 0 auto 30px auto;
+}
+
+#foot .main .menus a {
+    font-size: 14px;
+    border: 1px solid #404040;
+    margin: 0 5px;
+    border-radius: 3px;
+    display: inline-block;
+    width: 85px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+#foot .main .menus a:hover {
+    border-color: #2E95DE;
+}
+
+#foot .cs-contact {
+    color: #aaa;
+    width: 120px;
+    border: 3px solid #393939;
+    margin-right: 20px;
+}
+
+#foot .cs-contact .cs-tit {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    padding: 8px 0;
+    background: #333;
+}
+
+#foot .cs-contact img {
+    display: block;
+    width: 120px;
+    height: 120px;
+}
+
+#side {
+    position: fixed;
+    right: 10px;
+    bottom: 150px;
+}
+
+#side img {
+    cursor: pointer;
+    opacity: 0.8;
+    z-index: 10;
+}
+
+#side img:hover {
+    opacity: 1;
+}
+
+#side li {
+    padding: 5px 0;
+}
+
+#side .tel .tel-cont {
+    display: none;
+    position: absolute;
+    width: 410px;
+    margin-left: -325px;
+    margin-top: -86px;
+    opacity: 1;
+}
+
+#side .tel:hover .tel-cont {
+    display: block;
+}
+
+.home-head {
+    background: url("../img/2.jpeg");
+    background-size: cover;
+    padding: 0;
+    min-height: 500px;
+}
+
+/* .feat-head .td0 img{
+	height: 80px;
+	width: 250px;
+}
+.feat-head .td1{
+	float: right;
+	width: 500px;
+	height: 30px;
+} */
+.home-prd {
+    text-align: center;
+    margin-top: 180px;
+}
+
+.home-prd .slogan {
+    font-size: 20px;
+    letter-spacing: 5px;
+    padding: 0 50px 15px 0;
+    color: #ccc;
+}
+
+.home-prd img {
+    margin: 0 auto;
+    display: block;
+    padding-left: 75px;
+}
+
+.home-prd-intro {
+    padding-top: 50px;
+}
+
+.home-prd-intro .subtit {
+    color: #d4d4d4;
+    font-size: 16px;
+}
+
+.home-prd-intro .subtit:hover {
+    color: #fff;
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1024px) {
+    #head {
+        width: 800px;
+    }
+}
+
+@media only screen and (min-height: 600px) and (max-height: 768px) {
+    .home-head {
+        min-height: 675px;
+    }
+}
+
+@media only screen and (min-height: 769px) and (max-height: 800px) {
+    .home-head {
+        min-height: 700px;
+    }
+}
+
+@media only screen and (min-height: 801px) and (max-height: 900px) {
+    .home-head {
+        min-height: 800px;
+    }
+
+    .page-head {
+        min-height: 250px;
+    }
+}
+
+@media only screen and (min-height: 901px) and (max-height: 1080px) {
+    #head {
+        width: 1300px;
+    }
+
+    .home-prd {
+        margin-top: 180px;
+    }
+
+    .home-head {
+        min-height: 900px;
+    }
+
+    .page-head {
+        min-height: 300px;
+    }
+}
+
+@media only screen and (min-height: 1081px) and (max-height: 1500px) {
+    #head {
+        width: 1500px;
+    }
+
+    .home-prd {
+        margin-top: 220px;
+    }
+
+    .home-head {
+        min-height: 1000px;
+    }
+
+    .page-head {
+        min-height: 350px;
+    }
+}
+
+.funclist .tit {
+    font-size: 27px;
+}
+
+.funclist .menus {
+    height: 22px;
+    line-height: 22px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.funclist .menus a {
+    float: left;
+    font-size: 16px;
+    padding: 0 18px;
+    border-right: 1px solid #ddd;
+}
+
+.funclist .menus a:hover {
+    color: #444;
+}
+
+.funclist .menus a.on {
+    color: #444;
+    font-weight: bold;
+}
+
+.funclist .menus a:first-child {
+    padding-left: 0;
+}
+
+.funclist .menus a:last-child {
+    border-right: 0;
+}
+
+.funclist-m {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.funclist-m tr:nth-child(odd) th {
+    text-align: right;
+    padding-right: 120px;
+}
+
+.funclist-m tr:nth-child(odd) td {
+    text-align: left;
+}
+
+.funclist-m tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+.funclist-m tr:nth-child(even) th {
+    text-align: left;
+    padding-left: 120px;
+}
+
+.funclist-m tr:nth-child(even) td {
+    text-align: right;
+}
+
+.funclist-m th {
+    width: 50%;
+    padding: 80px 0;
+}
+
+.funclist-m td,
+.funclist-m th {
+    vertical-align: middle;
+}
+
+.funclist-m td {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.funclist-m .desc {
+    width: 500px;
+    margin-top: 25px;
+    height: 200px;
+}
+
+.funclist-m .desc li {
+    font-size: 15px;
+    color: #777;
+    line-height: 2;
+    display: none;
+}
+
+.funclist-pc {
+    padding: 80px 0 60px 0;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+/**
+ * 侧边栏样式
+ */
+.home-head .cb {
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#909090, direction=120, strength=4);
+    -moz-box-shadow: 2px 2px 10px #909090;
+    -webkit-box-shadow: 2px 2px 10px #909090;
+    box-shadow: 2px 2px 10px #909090;
+}
+
+.home-head #div1 {
+    margin-top: 150px;
+    width: 150px;
+    height: 220px;
+    background-color: white;
+    position: absolute;
+    left: -150px;
+}
+
+.home-head #div1 span {
+    width: 25px;
+    height: 80px;
+    line-height: 20px;
+    text-align: center;
+    left: 150px;
+    top: 70px;
+    background-color: #57A3F3;
+    color: #F5F5F5;
+    position: absolute;
+}

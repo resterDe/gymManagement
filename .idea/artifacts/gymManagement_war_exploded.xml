@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="gymManagement:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/gymManagement_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="gymManagement/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="gymManagement" />
@@ -43,6 +42,7 @@
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="GymManagement/web/Web" />
     </root>
   </artifact>
 </component>
