@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 会员信息
+ */
 @Repository
 public interface UserMapper {
     /**

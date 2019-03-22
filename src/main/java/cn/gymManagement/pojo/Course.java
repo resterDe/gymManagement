@@ -2,6 +2,8 @@ package cn.gymManagement.pojo;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 教程信息
  */
@@ -22,6 +24,8 @@ public class Course {
     private int maxNumber;
     //已预约人数
     private int reservationNumber;
+    //课程绑定教练信息
+    private List<Staff> staffList;
 
     public int getCourseID() {
         return courseID;
@@ -87,6 +91,14 @@ public class Course {
         this.reservationNumber = reservationNumber;
     }
 
+    public List<Staff> getStaffList() {
+        return staffList;
+    }
+
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList = staffList;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -98,6 +110,7 @@ public class Course {
                 ", introduce='" + introduce + '\'' +
                 ", maxNumber=" + maxNumber +
                 ", reservationNumber=" + reservationNumber +
+                ", staffList=" + staffList +
                 '}';
     }
 }

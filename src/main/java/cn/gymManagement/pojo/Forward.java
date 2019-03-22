@@ -2,6 +2,8 @@ package cn.gymManagement.pojo;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 预约信息
  */
@@ -14,6 +16,8 @@ public class Forward {
     private int userID;
     //预约时间
     private String forwardTime;
+    //查询预约课程信息
+    private List<Course> courseList;
 
     public int getForwardID() {
         return forwardID;
@@ -47,6 +51,14 @@ public class Forward {
         this.forwardTime = forwardTime;
     }
 
+    public List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
+    }
+
     @Override
     public String toString() {
         return "Forward{" +
@@ -54,6 +66,7 @@ public class Forward {
                 ", courseID=" + courseID +
                 ", userID=" + userID +
                 ", forwardTime='" + forwardTime + '\'' +
+                ", courseList=" + courseList +
                 '}';
     }
 }

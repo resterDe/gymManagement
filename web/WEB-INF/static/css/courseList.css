@@ -114,7 +114,6 @@ ul li {
 
 
 .icon {
-
     width: 60px;
     height: 25px;
 }
@@ -130,32 +129,24 @@ ul li {
     background: url("../img/2.jpeg");
     background-size: cover;
 }
-
-/* .feat-head .td0 img{
-	height: 80px;
-	width: 250px;
-}
-.feat-head .td1{
-	float: right;
-	width: 500px;
-	height: 30px;
-} */
 .feat-list {
     padding: 80px 0;
     background: #f7f7f7;
     text-align: center;
+    width: 1000px;
+    margin: auto;
 }
 
 .feat-list table {
     text-align: center;
-    margin: 0 auto;
 }
 
 .feat-list td {
+    float: left;
     background: #fff;
     padding: 0;
     width: 260px;
-    margin: 0 16px;
+    margin: 2% 3%;
 }
 
 .feat-list td .tit {
@@ -168,17 +159,6 @@ ul li {
     margin: 10px 0 10px 0;
 }
 
-/* .feat-list td .cont li {
-	padding: 10px 14px;
-	text-align: left;
-	color: #777;
-} */
-
-/* .feat-list td .cont li:before {
-	content: '√';
-	color: #FFD862;
-	padding-right: 12px;
-} */
 
 .feat-list td .cont:hover li {
     color: #444;

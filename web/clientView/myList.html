@@ -3,8 +3,46 @@
 <head>
     <meta charset="utf-8">
     <title>我的预约</title>
+    <!--引入 jq-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
     <link href="../static/css/list.css" rel="stylesheet"/>
 </head>
+<script type="text/javascript">
+    $(document).ready(function () {
+       $.ajax({
+           url: "/forward/getUserForward",
+           type: "GET",
+           success(data) {
+               console.log(data);
+
+           },
+           error(xhr, status, error) {
+               console.log("网络请求出错");
+           }
+       })
+    });
+    //退出登录
+    $(document).ready(function () {
+        $("#myQuit").click(function () {
+            $.ajax({
+                url: "/user/userQuit",
+                type: "GET",
+                success(data) {
+                    if (data == 0) {
+                        console.log("用户不存在，请前往登录");
+                        location.href = "clientView/userLogin.html";
+                    } else {
+                        console.log("用户成功退出");
+                        location.href = "/index.html";
+                    }
+                },
+                error(xhr, status, error) {
+                    console.log("用户连接超时");
+                }
+            })
+        })
+    });
+</script>
 <body>
 <div class="page-head feat-head">
     <div id="head">
@@ -15,8 +53,8 @@
                 <td align="right">
                     <ul>
                         <li><a href="../index.html" class="menu-home">首页</a></li>
-                        <li><a href="/" target="_blank">退出登录</a></li>
-                        <li><a href="javascript:void(0)" target="_blank">谢小德</a></li>
+                        <li><a id="myQuit">退出登录</a></li>
+                        <li><a href="courseList.html">课程预约</a></li>
                     </ul>
                 </td>
             </tr>
