@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--自动扫描包下注解-->
-    <context:component-scan base-package="cn.gymManagement"/>
-
-    <!--少了这个就会报404错误-->
-    <mvc:default-servlet-handler/>
-
-    <!--使用默认的servlet来设置响应静态文件-->
-    <mvc:default-servlet-handler/>
-
-    <!--配置允许访问的静态文件-->
-    <mvc:resources location="/WEB-INF/static/" mapping="/static/**"/>
-
-    <!--设置默认配置方案-->
-    <!--需要添加<mvc:annotation-driven/>，不然请求不能被捕获,且该配置放在扫描包下，否则将无法解析控制器类-->
-    <mvc:annotation-driven/>
-
-    <!--引入配置文件-->
+    <!--引入配置文件，PropertyPlaceholderConfigurer类-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!--引入jdbc配置文件-->

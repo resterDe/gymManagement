@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--自动扫描包下注解-->
+    <context:component-scan base-package="cn.gymManagement"/>
+    <!--少了这个就会报404错误-->
+    <!--使用默认的servlet来设置响应静态文件,为了能够优雅的使用RestFul API-->
+    <!--对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，
+    就将该请求转由Web应用服务器默认的Servlet处理，如果不是静态资源的请求，
+    才由DispatcherServlet继续处理。一般Web服务器默认servlet名称是default，
+    若不是，则通过default-servlet-name属性显示指定名称/-->
+    <!--DispatcherServlet拦截请求时也会拦截静态资源，需要将静态资源交给servlet去处理-->
+    <mvc:default-servlet-handler/>
+
+    <!--配置允许访问的静态文件
+    <mvc:resources />允许静态资源放在任何地方
+    传统Web容器的静态资源只能放在Web容器的根路径下-->
+    <mvc:resources location="/WEB-INF/static/" mapping="/static/**"/>
+
+    <!--使用@Controller必须配置<mvc:annotation-driven/>，
+    相当于注册DefaultAnnotationHandlerMapping（映射器）和AnnotationMethodHandlerAdapter（适配器）两个bean-->
+    <!--不然请求不能被捕获,且该配置放在扫描包下，否则将无法解析控制器类-->
+    <mvc:annotation-driven/>
 
     <!--视图解析器 完成视图对应-->
     <!--渲染输出-->

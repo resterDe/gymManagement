@@ -8,30 +8,59 @@
     <link href="../static/css/userLogin.css" rel="stylesheet"/>
 </head>
 <script type="text/javascript">
+    //初始化验证码的值
+    var myCode = null;
+
+    //验证验证码是否正确
+    function yanzheng() {
+        if ($("#codeText").val() == null) {
+            alert("请输入验证码");
+            return 0;
+            //toLowerCase()转为小写，不区分大小写
+        } else if (($("#codeText").val()).toLowerCase() == myCode.toLowerCase()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     $(document).ready(function () {
         $("#loginBtn").click(function () {
-            $.ajax({
-                url: "/user/userLogin",
-                type: "POST",
-                data: {
-                    "userAccount": $("#userName").val(),
-                    "userPassword": $("#password").val()
-                },
-                success(data) {
-                    if (data == 1) {
-                        console.log("登录成功");
-                        location.href = "/index.html";
-                    } else if (data == 0) {
-                        console.log("账号或者密码错误");
-                    } else {
-                        console.log("登录超时");
+            // if (yanzheng() == 0) {
+            //     alert("验证码错误");
+            //     qingchu();
+            //     dianji();
+            //     $("#codeText").val("");
+            // } else {
+                $.ajax({
+                    url: "/user/userLogin",
+                    type: "POST",
+                    data: {
+                        "userAccount": $("#userName").val(),
+                        "userPassword": $("#password").val(),
+                        "code": $("#codeText").val()
+                    },
+                    success(data) {
+                        if (data == 1) {
+                            console.log("登录成功");
+                            location.href = "/index.html";
+                        } else if (data == 0) {
+                            console.log("账号或者密码错误");
+                        } else {
+                            console.log("验证码错误");
+                            alert("验证码错误");
+                            qingchu();
+                            dianji();
+                            $("#codeText").val("");
+                        }
+                    },
+                    error() {
+                        console.log("登录超时，请检查网络问题或重新打开此页面");
                     }
-                },
-                error() {
-                    console.log("登录超时，请检查网络问题或重新打开此页面");
-                }
-            })
+                })
+            // }
         });
+
     });
 </script>
 <body>
@@ -47,10 +76,74 @@
             <label for="password">会员密码：</label>
             <input type="password" name="userPassword" id="password" placeholder="请输入您的个人密码"/>
         </div>
+        <div id="code" style="margin-left: 12%;">
+            <label for="codeText">验证码：</label>
+            <input type="text" name="code" id="codeText" style="height: 25px;width: 100px;outline:none;"/>
+            <!--验证码画布-->
+            <a href="javascript:void (0)" id="getCode">
+                <canvas id="myCanvas" width="100px" height="28px"
+                        style="float: right;border:1px solid #d3d3d3;margin-right: 20%;">
+                </canvas>
+            </a>
+        </div>
         <button type="button" id="loginBtn" class="input-button"><span>登录</span></button>
         <div class="text"><a href="#">忘记密码</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="../index.html">回到首页</a></div>
     </div>
     <div class="login-buttom">版权</div>
 </div>
+<script type="text/javascript">
+    //验证码实现
+    $(document).ready(function () {
+        //初始化验证码
+        dianji();
+        //点击刷新验证码
+        $("#getCode").click(function () {
+            //清除画布内容
+            qingchu();
+            //重新填写画布内容
+            dianji();
+        });
+    });
+
+    //执行刷新验证码
+    function dianji() {
+        $.ajax({
+            url: "/getVerification",
+            type: "GET",
+            success(data) {
+                //刷新验证码
+                getCode(data);
+                myCode = data;
+                console.log("刷新验证码");
+            },
+            error() {
+                console.log("刷新失败，请检查网络");
+            }
+        })
+    }
+
+    //绘制画布验证码
+    function getCode(code) {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.font = "25px Georgia";
+        ctx.font = "22px Verdana";
+        // Create gradient
+        var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
+        gradient.addColorStop("0", "magenta");
+        gradient.addColorStop("0.5", "blue");
+        gradient.addColorStop("1.0", "red");
+        // Fill with gradient
+        ctx.fillStyle = gradient;
+        ctx.fillText(code, 13, 23);
+    }
+
+    //清空画布内容
+    function qingchu() {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, 100, 28);
+    }
+</script>
 </body>
 </html>
