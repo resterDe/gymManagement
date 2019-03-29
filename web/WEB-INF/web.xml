@@ -24,6 +24,10 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
         </init-param>
+        <!--表示启动加载的优先级，必须为整数
+        值为0或者大于0时，表示在容器启动时就加载并初始化
+        小于0时或者没有指定时，表示servlet被请求时才会加载-->
+        <!--正数值越小，表示优先级越高-->
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -31,7 +35,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- Spring-mybatis的配置文件 -->
     <!-- 防止spring内存溢出监听器 -->
     <listener>
         <listener-class>
@@ -68,16 +71,32 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--是否登录拦截器-->
-    <!--<filter>-->
-        <!--<filter-name>LoginFilter</filter-name>-->
-        <!--<filter-class>cn.gymManagement.filter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>LoginFilter</filter-name>-->
-        <!--<url-pattern>*.jsp</url-pattern>-->
-    <!--</filter-mapping>-->
-    <!--<welcome-file-list>-->
-        <!--<welcome-file>login.jsp</welcome-file>-->
-    <!--</welcome-file-list>-->
+    <!--admin登录拦截器-->
+    <filter>
+        <filter-name>AdminLoginFilter</filter-name>
+        <filter-class>cn.gymManagement.filter.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminLoginFilter</filter-name>
+        <!--*.html表示可以拦截后缀为.html的请求，能访问index.jsp，不能访问index.html-->
+        <!--*.jsp恰好与其上相反-->
+        <url-pattern>/adminView/*</url-pattern>
+    </filter-mapping>
+
+    <!--user登录拦截器-->
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>cn.gymManagement.filter.UserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <!--*.html表示可以拦截后缀为.html的请求，能访问index.jsp，不能访问index.html-->
+        <!--*.jsp恰好与其上相反-->
+        <url-pattern>/clientView/*</url-pattern>
+    </filter-mapping>
+    
+    <!--欢迎界面设为index.html-->
+    <welcome-file-list>
+        <welcome-file>/index.html</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>金小泽健身房后台管理</title>
+  <!--layui CSS-->
+  <link rel="stylesheet" href="../static/layui/css/layui.css">
+  <!--jquery-->
+  <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">JXZ 后台管理</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <!-- <li class="layui-nav-item"><a href="">系统设置</a></li> -->
+      <!-- <li class="layui-nav-item"><a href="">商品管理</a></li> -->
+      <!-- <li class="layui-nav-item"><a href="">用户</a></li> -->
+      <li class="layui-nav-item">
+        <a href="javascript:;">系统维护</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">会员设置</a></dd>
+          <dd><a href="">员工设置</a></dd>
+          <dd><a href="">公告管理</a></dd>
+        </dl>
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          Admin
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <!-- <li class="layui-nav-item"><a href="">登出</a></li> -->
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">会员管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">会员信息</a></dd>
+			<dd><a href="javascript:;">新增会员</a></dd>
+            <dd><a href="javascript:;">会员卡查询</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">教程管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">已开设教程</a></dd>
+            <dd><a href="javascript:;">已过期课程</a></dd>
+            <dd><a href="javascript:;">添加新教程</a></dd>
+          </dl>
+        </li>
+		<li class="layui-nav-item">
+		<a href="javascript:;">员工管理</a>
+		<dl class="layui-nav-child">
+			<dd><a href="javascript:;">在职员工</a></dd>
+			<dd><a href="javascript:;">添加员工</a></dd>
+			<dd><a href="javascript:;">薪资管理（待定）</a></dd>
+		</dl>
+		</li>
+        <li class="layui-nav-item"><a href="">预约信息</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <div style="padding: 15px;">
+		<!-- 内容主体区域 -->
+		<div class="layui-anim layui-anim-up">
+			<fieldset class="layui-elem-field layui-field-title">
+				<legend>使用说明</legend>
+				</fieldset>
+				<!--嵌套页面-->
+				<iframe src="textExplain.html" frameborder="0" width="100%" height="800px"></iframe>
+				</div>
+	</div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+	金小泽后台管理系统---广东技术师范学院天河学院
+  </div>
+</div>
+<script src="../static/layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  
+});
+</script>
+</body>
+</html>

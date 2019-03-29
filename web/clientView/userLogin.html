@@ -10,7 +10,6 @@
 <script type="text/javascript">
     //初始化验证码的值
     var myCode = null;
-
     //验证验证码是否正确
     function yanzheng() {
         if ($("#codeText").val() == null) {
@@ -22,16 +21,10 @@
         } else {
             return 0;
         }
-    }
-
+    };
+    //绑定登录按钮
     $(document).ready(function () {
         $("#loginBtn").click(function () {
-            // if (yanzheng() == 0) {
-            //     alert("验证码错误");
-            //     qingchu();
-            //     dianji();
-            //     $("#codeText").val("");
-            // } else {
                 $.ajax({
                     url: "/user/userLogin",
                     type: "POST",

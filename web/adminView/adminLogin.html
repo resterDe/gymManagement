@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理员登录</title>
+    <!--layui CSS-->
+    <link href="../static/layui/css/layui.css" rel="stylesheet"/>
+    <!--Jquery-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--link css-->
+    <link href="../static/css/adminLogin.css" rel="stylesheet"/>
+    <!--icon 覆盖-->
+    <link rel="shortcut icon" href="#"/>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#adminLogin").click(function () {
+            $.ajax({
+                url: "/admin/adminLogin",
+                type: "POST",
+                data: {
+                    "seriaNumber": $("#seriaNumber").val(),
+                    "newPassword": $("#newPassword").val()
+                },
+                success(data) {
+                    if (data == 0) {
+                        console.log("登入失败，请检查登陆身份");
+                    } else {
+                        //进入主页面
+                        console.log("登入成功,请妥善管理");
+                        location.href = "main.html";
+                    }
+                },
+                error() {
+                    console.log("登入失败，请检查网络设置");
+                }
+            })
+        });
+    });
+</script>
+<body>
+<div class="admin-form">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>金小泽--后台管理</legend>
+        <div class="layui-field-box">
+            <div class="layui-form">
+                <div class="layui-form-item layui-form-pane">
+                    <label class="layui-form-label">登入账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="seriaNumber" id="seriaNumber" lay-verify="required" placeholder="请输入标题"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-pane">
+                    <label class="layui-form-label">登入密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="newPassword" id="newPassword" lay-verify="required"
+                               placeholder="请输入密码"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux font-color"><span>*请在无人偷看时输入</span></div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" type="button" id="adminLogin" lay-submit lay-filter="formDemo">立即提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<script src="../static/layui/layui.js"></script>
+<script>
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            //文字弹窗，获取文本弹窗
+            // layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

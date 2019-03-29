@@ -1215,103 +1215,110 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="253" name="introduce">
+    <column id="290" parent="253" name="salary">
       <Position>12</Position>
+      <Comment>员工薪资</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="291" parent="253" name="introduce">
+      <Position>13</Position>
       <Comment>员工简介</Comment>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="253" name="staffTime">
-      <Position>13</Position>
+    <column id="292" parent="253" name="staffTime">
+      <Position>14</Position>
       <Comment>注册时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="292" parent="253" name="PRIMARY">
+    <key id="293" parent="253" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>staffID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="293" parent="254" name="userID">
+    <column id="294" parent="254" name="userID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="294" parent="254" name="userName">
+    <column id="295" parent="254" name="userName">
       <Position>2</Position>
       <Comment>会员名字</Comment>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="295" parent="254" name="userAccount">
+    <column id="296" parent="254" name="userAccount">
       <Position>3</Position>
       <Comment>会员账户</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="254" name="userPassword">
+    <column id="297" parent="254" name="userPassword">
       <Position>4</Position>
       <Comment>会员密码</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="254" name="gender">
+    <column id="298" parent="254" name="gender">
       <Position>5</Position>
       <Comment>性别</Comment>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="254" name="identityCard">
+    <column id="299" parent="254" name="identityCard">
       <Position>6</Position>
       <Comment>身份证号</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="254" name="phone">
+    <column id="300" parent="254" name="phone">
       <Position>7</Position>
       <Comment>联系方式</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="254" name="email">
+    <column id="301" parent="254" name="email">
       <Position>8</Position>
       <Comment>邮箱</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="254" name="activateCode">
+    <column id="302" parent="254" name="activateCode">
       <Position>9</Position>
       <Comment>是否激活 0：未激活 1：已激活</Comment>
       <DataType>int(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="302" parent="254" name="regTime">
+    <column id="303" parent="254" name="regTime">
       <Position>10</Position>
       <Comment>注册时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="303" parent="254" name="expireTime">
+    <column id="304" parent="254" name="expireTime">
       <Position>11</Position>
       <Comment>到期时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="304" parent="254" name="PRIMARY">
+    <key id="305" parent="254" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID</ColNames>
       <Primary>1</Primary>

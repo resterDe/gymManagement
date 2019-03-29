@@ -28,6 +28,8 @@ public class Staff {
     private int jurisdiction;
     //员工编号(入职年份+随机三位数)
     private int  serialNumber;
+    //员工薪资
+    private int salary;
     //员工介绍
     private String introduce;
     //注册时间
@@ -121,6 +123,14 @@ public class Staff {
         this.serialNumber = serialNumber;
     }
 
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
     public String getIntroduce() {
         return introduce;
     }
@@ -151,6 +161,7 @@ public class Staff {
                 ", position='" + position + '\'' +
                 ", jurisdiction=" + jurisdiction +
                 ", serialNumber=" + serialNumber +
+                ", salary=" + salary +
                 ", introduce='" + introduce + '\'' +
                 ", staffTime='" + staffTime + '\'' +
                 '}';

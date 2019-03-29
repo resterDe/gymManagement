@@ -43,9 +43,8 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--springMVC在加载xml生成上下文环境的时候，会自动扫描制定位置的Mapper接口，然后自动生成代理类，实现接口内容。
+    <!--springMVC在加载xml生成上下文环境的时候，会自动扫描指定位置的Mapper接口，然后自动生成代理类，实现接口内容。
     这样在调用接口的时候，实际上是通过代理类去调用mybatis的xml中的sql语句-->
-
     <!--使mapper类支持mybatis注解-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="cn.gymManagement.mapper"/>
