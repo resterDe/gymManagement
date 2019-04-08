@@ -5,7 +5,12 @@
     <meta charset="UTF-8"/>
     <!--引入 jq-->
     <script src="static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="static/template/art-template.js"></script>
+
     <link href="static/css/index.css" rel="stylesheet"/>
+    <!--引入提示js-->
+    <script src="static/js/msg.js"></script>
 </head>
 <script type="text/javascript">
     //加载公告
@@ -17,11 +22,12 @@
             success(data) {
                 //成功回调函数
                 console.log(data);
+                $("#t_ol")[0].innerHTML=template('gonggao',data);
                 examine();
             },
             error(xhr, status, error) {
                 //出错回调函数
-                console.log("连接超时，请刷新当前页面");
+                $.MsgBox.Alert("错误提示","连接超时，请刷新当前页面");
             }
         })
     });
@@ -57,13 +63,14 @@
     //检查用户是否登录
     //默认未登录
     var code = 0;
+
     function examine() {
         $.ajax({
             url: "/user/examineLogin",
             type: "GET",
             success(data) {
                 if (data == 0) {
-                    console.log("用户未登录：" + data);
+                    console.log("未登录：" + data);
                     $("#aText").text("未登录");
                     $("#loginText").attr("href", "clientView/userLogin.html");
                     code = data;
@@ -89,10 +96,10 @@
                 type: "GET",
                 success(data) {
                     if (data == 0) {
-                        console.log("用户不存在，请前往登录");
+                        ale("用户不存在，请前往登录");
                         location.href = "clientView/userLogin.html";
                     } else {
-                        console.log("用户成功退出");
+                        ale("用户成功退出");
                         location.href = "/index.html";
                     }
                 },
@@ -108,7 +115,7 @@
             //检查是否登录
             examine();
             if (code == 0) {
-                console.log("请先登录再预约!");
+                ale("请先登录再预约!");
                 location.href = "clientView/userLogin.html";
             } else {
                 console.log("正在进入预约界面!");
@@ -138,6 +145,17 @@
     </div>
     <!--侧边栏广告-->
     <div id="div1" class="cb">
+        <div>
+            <ol id="t_ol">
+                <script id="gonggao" type="text/html">
+                    {{ each }}
+                    <li>
+                        <a id="{{ $value.annID }}">{{ $value.headline }}</a>
+                    </li>
+                    {{ /each }}
+                </script>
+            </ol>
+        </div>
         <span class="cb">健身公告</span>
     </div>
     <!--end-->
@@ -174,6 +192,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

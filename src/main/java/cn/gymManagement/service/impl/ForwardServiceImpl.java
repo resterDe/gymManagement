@@ -34,4 +34,25 @@ public class ForwardServiceImpl implements ForwardService {
     public List<Forward> getUserForward(int userID) {
         return forwardMapper.getUserForward(userID);
     }
+
+    /**
+     * 1、查询会员是否已经预约过此课程
+     * 2、查询会员已预约的课程
+     * @param userID 会员唯一标识
+     * @return
+     */
+    @Override
+    public List<Forward> selectUserCourse(int userID) {
+        return forwardMapper.selectUserCourse(userID);
+    }
+
+    /**
+     * 根据教程id删除相应教程
+     * @param forwardID
+     * @return
+     */
+    @Override
+    public int delUserForward(int forwardID) {
+        return forwardMapper.delUserForward(forwardID);
+    }
 }

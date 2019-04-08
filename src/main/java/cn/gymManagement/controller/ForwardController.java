@@ -25,7 +25,7 @@ public class ForwardController {
     /**
      * *预约课程
      * 按照人数要求，先查询是否已达到人数上限，预约成功后修改已预约人数数量
-     * 0表示出错，1表示成功，2表示人数已达上限,3表示登录失效（未登录）
+     * 0表示出错，1表示成功，2表示人数已达上限,3表示登录失效（未登录）,4表示已预约过当前课程
      *
      * @param session
      * @param courseID
@@ -46,6 +46,17 @@ public class ForwardController {
             int userID = users.getUserID();
             //判断当前预约人数是否已达上限
             Course courses = courseService.getCourseNumber(courseID);
+            //获取预约信息中的课程唯一标识
+            List<Forward> forwardList=forwardService.selectUserCourse(userID);
+            //判断是否已经预约当前课程
+            for (Forward f:forwardList){
+                if (f.getCourseID()==courseID){
+                    //如果已经预约，则跳出方法
+                    System.out.println("已经存在课程："+courseID);
+                    return 4;
+                }
+            }
+            //继续
             int maxNumber = courses.getMaxNumber();
             int reservationNumber = courses.getReservationNumber();
             if (reservationNumber < maxNumber) {
@@ -83,5 +94,24 @@ public class ForwardController {
     public List<Forward> getUserForward(HttpSession session){
         int userID=((User)session.getAttribute("userSession")).getUserID();
         return forwardService.getUserForward(userID);
+    }
+
+    /**
+     * 根据教程id删除相应教程
+     * 0 表示成功删除  1 表示删除失败
+     * @param forwardID
+     * @return
+     */
+    @RequestMapping(value = "delUserForward",method = RequestMethod.DELETE)
+    @ResponseBody
+    public int delUserForward(int forwardID){
+        int row=forwardService.delUserForward(forwardID);
+        if (row==1){
+            System.out.println("删除成功："+row);
+            return 0;
+        }else {
+            System.out.println("删除失败："+row);
+            return 1;
+        }
     }
 }

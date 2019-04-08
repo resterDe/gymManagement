@@ -7,7 +7,10 @@
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
     <!--渲染引擎-->
     <script type="text/javascript" src="../static/template/art-template.js"></script>
+    <!--样式表-->
     <link href="../static/css/courseList.css" rel="stylesheet"/>
+    <!--引入提示js-->
+    <script src="../static/js/msg.js"></script>
 </head>
 <script type="text/javascript">
     //加载预约课程信息
@@ -16,11 +19,12 @@
             url: "/course/getCourseAll",
             type: "GET",
             success(data) {
+                console.log(data);
                 console.log(data.length);
                 $("#bTable")[0].innerHTML = template('test', data);
             },
             error(xhr, status, error) {
-                console.log("连接超时，请检查网络是否正常使用！");
+                ale("连接超时，请检查网络是否正常使用！");
             }
         })
     });
@@ -32,7 +36,7 @@
                 type: "GET",
                 success(data) {
                     if (data == 0) {
-                        console.log("用户不存在，请前往登录");
+                        ale("用户不存在，请前往登录");
                         location.href = "clientView/userLogin.html";
                     } else {
                         console.log("用户成功退出");
@@ -53,7 +57,7 @@
             type: "GET",
             success(data) {
                 if (data == 0) {
-                    console.log("请先登录再查看：" + data);
+                    ale("请先登录再查看" );
                     location.href = "userLogin.html";
                 } else {
                     console.log("正在进入个人预约列表：" + data);
@@ -61,7 +65,7 @@
                 }
             },
             error(xhr, status, error) {
-                console.log("连接超时");
+                ale("连接超时,请刷新重试");
             }
         })
     };
@@ -81,27 +85,31 @@
             success(data) {
                 switch (data) {
                     case (0):
-                        console.log("添加错误，请检查网络重试");
+                        ale("添加错误，请检查网络重试");
                         location.href = "courseList.html";
                         break;
                     case (1):
-                        console.log("添加成功，请按时参加教程");
+                        ale("添加成功，请按时参加教程");
                         location.href="courseList.html";
                         break;
                     case (2):
-                        console.log("预约失败，人数已达上限");
+                        ale("预约失败，人数已达上限，请选择其他课程");
                         location.href="courseList.html";
                         break;
                     case (3):
-                        console.log("登录失效，请重新登录");
+                        ale("登录失效，请重新登录");
                         location.href="userLogin.html";
                         break;
+                    case (4):
+                        ale("已经预约过当前课程，请不要重复预约");
+                        location.href="courseList.html";
+                        break;
                     default:
-                        console.log("服务器出错，请联系网站管理员");
+                        ale("对不起，选择出错，请重新选择");
                 }
             },
             error(xhr, status, error) {
-                console.log("预约超时，请检查网络再重试");
+                ale("预约超时，请检查网络再重试");
             }
         })
     }
@@ -131,9 +139,12 @@
             <script id="test" type="text/html">
                 {{each}}
                 <td>
-                    <div class="icon"></div>
+                    <div class="icon">{{$value.courseName}}</div>
                     <!--标题-->
-                    <div class="tit">{{$value.courseName}}</div>
+                    <div class="tit">
+                        <span>已预约：{{ $value.reservationNumber }} 人 &nbsp;</span>
+                        <span>剩余：{{ $value.maxNumber - $value.reservationNumber}} 人</span>
+                    </div>
                     <div class="cont">
                         <!--内容-->
                     </div>

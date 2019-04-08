@@ -143,6 +143,32 @@ a {
 .list .list-code {
     margin-top: 30px;
     width: 500px;
-    height: 150px;
+    height: 100px;
     background-color: #F5F5F5;
+
+}
+.list .list-code .dle{
+    float: right;
+    margin-right: 1%;
+    color: red;
+    /*加粗*/
+    font-weight: bold;
+}
+.list .list-code .dle:hover{
+    border: 1px solid #909090;
+}
+.list .list-code .s_title{
+    font-family: 'Microsoft YaHei', serif;
+    margin-left: 30%;
+}
+.list .list-code .s_introduce{
+    text-align: center;
+    margin-top: 1%;
+    font-size: 10px;
+    height: 45px;
+}
+.list .list-code .s_tishi{
+    text-align: center;
+    margin-top: 1%;
+    font-size: 8px;
 }

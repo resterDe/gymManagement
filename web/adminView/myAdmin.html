@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员安全设置</title>
+    <!--layui CSS-->
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <!--jquery-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+</head>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //确认退出
+        $("#quitAdmin").click(function () {
+            $.ajax({
+                url: "/admin/adminQuit",
+                type: "GET",
+                success(data) {
+                    if (data == 1) {
+                        console.log("退出成功：" + data);
+                        window.location.reload();
+                    } else {
+                        console.log("退出失败：" + data);
+                    }
+                },
+                error() {
+                    console.log("网络出错，请刷新重试");
+                }
+            })
+        });
+        //修改密码
+        $("#updateBtu").click(function () {
+            alert("需要修改的密码：" + $("#newPassword").val());
+            if (ifPassword()) {
+                $.ajax({
+                    url: "/admin/updateAdminPassword",
+                    type: "POST",
+                    data: {
+                        //put，delete请求需要携带"_method"---属性指定请求，type为post
+                        _method: "put",
+                        "newPassword": $("#newPassword").val()
+                    },
+                    success(data) {
+                        console.log("修改返回值：" + data);
+                        //修改成功，后台清除session后刷新当前页面可返回登陆页面
+                        location.reload();
+                    },
+                    error() {
+                        console.log("网络出错，请稍后重试");
+                    }
+                })
+            } else {
+                layer.msg("密码不一致，请确认");
+            }
+        })
+    });
+
+    //判断新密码与确认密码是否一致
+    function ifPassword() {
+        var newPassword = $("#newPassword").val();//新密码
+        var conPassword = $("#conPassword").val();//确认新密码
+
+        if (newPassword == conPassword) {
+            console.log("密码一致");
+            return true;
+        } else {
+            console.log("密码不一致，请确认");
+            return false;
+        }
+    }
+
+</script>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">JXZ 后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!-- <li class="layui-nav-item"><a href="">系统设置</a></li> -->
+            <!-- <li class="layui-nav-item"><a href="">商品管理</a></li> -->
+            <li class="layui-nav-item"><a href="main.html"><i class="layui-icon layui-icon-refresh"></i>&nbsp;回到首页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">系统维护</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">会员设置</a></dd>
+                    <dd><a href="">员工设置</a></dd>
+                    <dd><a href="">公告管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <!-- <li class="layui-nav-item"><a href="">登出</a></li> -->
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">会员管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">会员信息</a></dd>
+                        <dd><a href="javascript:;">新增会员</a></dd>
+                        <dd><a href="javascript:;">会员卡查询</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">教程管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">已开设教程</a></dd>
+                        <dd><a href="javascript:;">已过期课程</a></dd>
+                        <dd><a href="javascript:;">添加新教程</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">员工管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">在职员工</a></dd>
+                        <dd><a href="javascript:;">添加员工</a></dd>
+                        <dd><a href="javascript:;">薪资管理（待定）</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">预约信息</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <div style="padding: 15px;">
+            <!-- 内容主体区域 -->
+            <div class="layui-anim layui-anim-up">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>安全设置</legend>
+                </fieldset>
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">密码修改</li>
+                        <li>退出登录</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <fieldset class="layui-elem-field layui-field-title">
+                                <legend>修改登录密码</legend>
+                                <div class="layui-field-box">
+                                    <form class="layui-form">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">原密码</label>
+                                            <div class="layui-input-block">
+                                                <input type="password" id="password" lay-verify="required"
+                                                       placeholder="请输入原密码" class="layui-input"
+                                                       style="width: 35%">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">新密码</label>
+                                            <div class="layui-input-block">
+                                                <input type="password" id="newPassword" lay-verify="required"
+                                                       placeholder="请输入新密码" class="layui-input"
+                                                       style="width: 35%">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">确认新密码</label>
+                                            <div class="layui-input-block">
+                                                <input type="password" id="conPassword" lay-verify="required"
+                                                       placeholder="请确认新密码" class="layui-input"
+                                                       style="width: 35%">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" id="updateBtu" type="button"
+                                                        lay-submit lay-filter="formDemo">立即修改
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="layui-tab-item">
+                            <a id="quitAdmin" class="layui-btn layui-btn-danger">确认退出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        金小泽后台管理系统---广东技术师范学院天河学院
+    </div>
+</div>
+<script src="../static/layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            //文字弹窗，获取文本弹窗
+            // layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

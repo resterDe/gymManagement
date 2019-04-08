@@ -27,3 +27,6 @@ body{
 .font-color span{
 	color: red;
 }
+.admin-form .la:hover{
+	background-color: #FF5722;
+}

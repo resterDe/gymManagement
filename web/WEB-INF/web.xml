@@ -42,7 +42,7 @@
         </listener-class>
     </listener>
 
-    <!--RestFul风格-->
+    <!--ResetFul风格-->
     <filter>
         <filter-name>HiddenHttpMethodFilter</filter-name>
         <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter

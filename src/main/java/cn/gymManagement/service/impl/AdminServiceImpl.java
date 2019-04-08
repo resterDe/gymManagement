@@ -22,4 +22,15 @@ public class AdminServiceImpl implements AdminService {
     public Staff adminLogin(int seriaNumber, String newPassword) {
         return adminMapper.adminLogin(seriaNumber, newPassword);
     }
+
+    /**
+     * 修改管理员密码
+     * @param staffID 管理员id
+     * @param newPassword 新密码
+     * @return
+     */
+    @Override
+    public int updateAdminPwd(int staffID, String newPassword) {
+        return adminMapper.updateAdminPwd(staffID, newPassword);
+    }
 }

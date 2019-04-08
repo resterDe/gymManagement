@@ -31,4 +31,20 @@ public interface ForwardMapper {
     @Select("select * from t_forward where userID=#{userID}")
     List<Forward> getUserForward(@Param("userID")int userID);
 
+    /**
+     * 1、查询会员是否已经预约过此课程
+     * 2、查询会员已预约的课程
+     * @param userID 会员唯一标识
+     * @return
+     */
+    @Select("select * from t_forward where userID=#{userID}")
+    List<Forward> selectUserCourse(@Param("userID")int userID);
+
+    /**
+     * 根据教程id删除相应教程
+     * @param forwardID
+     * @return
+     */
+    @Delete("delete from t_forward where forwardID=#{forwardID}")
+    int delUserForward(@Param("forwardID")int forwardID);
 }

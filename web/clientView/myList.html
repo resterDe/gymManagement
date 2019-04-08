@@ -5,24 +5,27 @@
     <title>我的预约</title>
     <!--引入 jq-->
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="../static/template/art-template.js"></script>
     <link href="../static/css/list.css" rel="stylesheet"/>
+    <!--引入提示js-->
+    <script src="../static/js/msg.js"></script>
 </head>
 <script type="text/javascript">
     $(document).ready(function () {
-       $.ajax({
-           url: "/forward/getUserForward",
-           type: "GET",
-           success(data) {
-               console.log(data);
-
-           },
-           error(xhr, status, error) {
-               console.log("网络请求出错");
-           }
-       })
-    });
-    //退出登录
-    $(document).ready(function () {
+        //获取个人预约列表
+        $.ajax({
+            url: "/forward/getUserForward",
+            type: "GET",
+            success(data) {
+                console.log(data);
+                $("#timeData")[0].innerHTML = template('test', data);
+            },
+            error(xhr, status, error) {
+                console.log("网络请求出错");
+            }
+        });
+        //退出登录
         $("#myQuit").click(function () {
             $.ajax({
                 url: "/user/userQuit",
@@ -42,6 +45,32 @@
             })
         })
     });
+    //删除教程
+    function delForward(forwardID) {
+        $.ajax({
+            url: "/forward/delUserForward",
+            type: "POST",
+            data: {
+                _method: "DELETE",
+                "forwardID": forwardID
+            },
+            success(data){
+                if (data==0){
+                    console.log("删除成功："+data);
+                    alert("删除成功");
+                    window.location.reload();
+                } else {
+                    console.log("删除失败："+data);
+                    alert("删除失败");
+                    window.location.reload();
+                }
+            },
+            error(){
+                console.log("操作出错，请找管理员联系");
+                alert("操作出错，请找管理员联系");
+            }
+        });
+    }
 </script>
 <body>
 <div class="page-head feat-head">
@@ -63,8 +92,40 @@
 </div>
 <div class="list yinying">
     <div class="title yinying">已预约</div>
-    <div class="list-code yinying"></div>
+    <div id="timeData">
+        <script id="test" type="text/html">
+            {{ each }}
+            <div class="list-code yinying">
+                <div class="dle yinying" onclick="delForward('{{ $value.forwardID }}');">_X_</div>
+                {{ include 'data' $value.courseList }}
+            </div>
+            <div style="text-align: center;margin-top: 1%;font-size: 8px;">
+                <span>预约时间：{{ $value.forwardTime }}</span>
+            </div>
+            {{ /each }}
+        </script>
+    </div>
     <div style="width: 500px;height: 30px;"></div>
 </div>
+<!--被包含区域-->
+<!--start-->
+<script id="data" type="text/html">
+    {{each}}
+
+    <div class="s_title">
+        <span>-------&nbsp;{{ $value.courseName }}&nbsp;-------</span>
+    </div>
+    <div class="s_introduce">
+            <span>
+                {{ $value.introduce }}
+            </span>
+    </div>
+    <div class="s_tishi">
+        <span>持续时间：{{ $value.courseTime }}</span>
+        <span>训练地点：{{ $value.site }}</span>
+    </div>
+    {{/each}}
+</script>
+<!--end-->
 </body>
 </html>

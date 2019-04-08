@@ -114,7 +114,9 @@ ul li {
 
 
 .icon {
-    width: 60px;
+    /*width: 60px;*/
+    margin-top: 5%;
+    font-size: 10px;
     height: 25px;
 }
 
@@ -150,11 +152,13 @@ ul li {
 }
 
 .feat-list td .tit {
-    font-size: 18px;
+
     border-bottom: 1px solid #E5E5E5;
     padding-bottom: 20px;
 }
-
+.feat-list td .tit span{
+    font-size: 10px;
+}
 .feat-list td .cont {
     margin: 10px 0 10px 0;
 }
