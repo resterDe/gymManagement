@@ -1,14 +1,16 @@
 package cn.gymManagement.controller;
 
 import cn.gymManagement.pojo.User;
+import cn.gymManagement.service.CardService;
 import cn.gymManagement.service.UserService;
+import cn.gymManagement.utils.NumberUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -18,6 +20,11 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
+    /**
+     * 会员卡接口
+     */
+    @Autowired
+    private CardService cardService;
 
     /**
      * 会员登录
@@ -31,9 +38,9 @@ public class UserController {
     @ResponseBody
     public int userLogin(HttpSession session, String userAccount, String userPassword, String code) {
         //验证码验证
-        String myCode= ((String) session.getAttribute("code")).toLowerCase();
-        System.out.println("获取的验证码："+code);
-        System.out.println("正确验证码："+myCode);
+        String myCode = ((String) session.getAttribute("code")).toLowerCase();
+        System.out.println("获取的验证码：" + code);
+        System.out.println("正确验证码：" + myCode);
         //获取验证码
         if (code.equals(myCode)) {
             //执行登录
@@ -93,6 +100,176 @@ public class UserController {
             session.removeAttribute("userSession");
             //清楚session中所有信息，注销用户，使session失效
             session.invalidate();
+            return 1;
+        }
+    }
+
+    /**
+     * 获取会员列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "getUserList", method = RequestMethod.GET, produces = {"text/html;charset=UTF-8;", "application/js"})
+    @ResponseBody
+    public String getUserList(int page, int limit) {
+        System.out.println("获取：" + page + "：" + limit);
+        //添加到数据集合中
+        int count = userService.getUserNumber();
+        int limits = limit;
+        int pages = (page - 1) * limit;
+        List<User> userList = userService.getUserList(pages, limits);
+        //设置相应格式
+        JSONObject obj = new JSONObject();
+        obj.put("code", 0);
+        obj.put("msg", "");
+        obj.put("count", count);
+        obj.put("data", userList);
+        return obj.toJSONString();
+    }
+
+    /**
+     * 根据会员ID删除会员
+     * 0：表示删除会员、会员卡信息成功  1：删除会员失败  2：删除会员成功，删除会员卡信息失败
+     * @param userID 唯一标识
+     * @return
+     */
+    @RequestMapping(value = "deleteUserById", method = RequestMethod.DELETE)
+    @ResponseBody
+    public int deleteUserById(int userID) {
+        System.out.println("需要删除的会员：" + userID);
+        int row = userService.deleteUserById(userID);
+        if (row == 1) {
+            System.out.println("删除会员成功");
+            //删除会员信息后同步删除会员卡信息
+            int code=cardService.delCardByUserId(userID);
+            if (code==1){
+                System.out.println("会员卡信息删除成功");
+                return 0;
+            }else {
+                System.out.println("会员卡信息删除失败");
+                return 2;
+            }
+        } else {
+            System.out.println("删除会员失败");
+            return 1;
+        }
+    }
+
+    /**
+     * 新增会员
+     * 0表示成功 1表示失败 2表示已存在会员 3会员卡级别添加失败
+     *
+     * @param users 页面会员基本信息
+     * @return
+     */
+    @RequestMapping(value = "saveUser", method = RequestMethod.POST)
+    @ResponseBody
+    public int saveUser(@RequestBody User users) {
+        //查询是否已存在该会员
+        String userAccount;
+
+        //会员级别名称
+        String rankName = users.getRankName();
+        User userIdCards = userService.getUserIdCard(users.getIdentityCard());
+        if (userIdCards == null) {
+            //---开始新增---
+            //获取随机不重复三位id,合成会员账号
+            System.out.println("获取到的会员基本信息：" + users);
+            userAccount = users.getUserAccount() + NumberUtil.getNumber();
+            System.out.println("合成的会员账号：" + userAccount);
+            //获取会员卡登记,0表示不激活，1表示激活，默认为1,到期时间为空
+            int row = userService.insertUser(users.getUserName(),
+                    userAccount, users.getUserPassword(), users.getGender(),
+                    users.getIdentityCard(), users.getPhone(), users.getEmail(),
+                    1, users.getRegTime(), users.getExpireTime());
+            if (row == 1) {
+                //会员卡有效时间
+                String validTime = null;
+                System.out.println("新增空户成功,未激活：" + row);
+                //添加会员成功，获取会员卡有效时间以及名称
+                if ("铜牌会员".equals(rankName)) {
+                    validTime = "三个月";
+                }
+                if ("银牌会员".equals(rankName)) {
+                    validTime = "半年";
+                }
+                if ("金牌会员".equals(rankName)) {
+                    validTime = "一年";
+                } else {
+                    System.out.println("假会员");
+                }
+                //获取会员ID
+                int userID=(userService.getUserIdCard(users.getIdentityCard())).getUserID();
+                //添加会员卡级别
+                int code=cardService.addUserCard(userID,rankName,validTime);
+                if (code==1){
+                    System.out.println("会员卡级别添加成功");
+                    return 0;
+                }else {
+                    System.out.println("会员卡级别添加失败");
+                 return 3;
+                }
+            } else {
+                System.out.println("新增失败：" + row);
+                return 1;
+            }
+        } else {
+            System.out.println("已存在该会员，请确认身份信息再添加");
+            return 2;
+        }
+    }
+
+    /**
+     * 根据会员ID查询会员详细信息，包括会员卡信息
+     * @param userID
+     * @return
+     */
+    @RequestMapping(value = "getUserInfoById",method = RequestMethod.GET)
+    @ResponseBody
+    public User getUserInfoById(int userID){
+        return userService.getUserInfoById(userID);
+    }
+
+    /**
+     * 修改会员信息
+     * 0：表示会员、会员卡更新成功，1：更新失败，2：会员信息更新成功，会员卡信息更新失败
+     * @param users 会员相关信息
+     * @return
+     */
+    @RequestMapping(value = "updateUserInfo",method = RequestMethod.PUT)
+    @ResponseBody
+    public int updateUserInfo(@RequestBody User users){
+        //定义会员卡有效期
+        String validTime=null;
+        System.out.println("获取的对象数据："+users);
+        //执行对会员信息修改动作
+        int row=userService.updateUserInfo(users.getUserName(),users.getUserPassword(),
+                users.getGender(),users.getIdentityCard(),users.getPhone(),users.getEmail(),
+                users.getActivateCode(),users.getExpireTime(),users.getUserID());
+        if (row==1){
+            System.out.println("修改会员信息成功");
+            //修改完会员信息，更新会员对应会员卡信息
+              //对会员卡信息进行判断
+            if (users.getRankName().equals("铜牌会员")){
+                validTime="三个月";
+            }
+            if (users.getRankName().equals("银牌会员")){
+                validTime="半年";
+            }
+            if (users.getRankName().equals("金牌会员")){
+                validTime="一年";
+            }
+            //执行修改
+            int code=cardService.updateCardByUserId(users.getRankName(),validTime,users.getUserID());
+            if (code==1){
+                System.out.println("会员、会员卡信息更新完成");
+                return 0;
+            }else {
+                System.out.println("会员卡信息更新失败");
+                return 2;
+            }
+        }else {
+            System.out.println("修改会员信息失败");
             return 1;
         }
     }

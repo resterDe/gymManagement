@@ -31,9 +31,24 @@
                 }
             })
         });
-        //修改密码
-        $("#updateBtu").click(function () {
-            alert("需要修改的密码：" + $("#newPassword").val());
+
+    });
+    //判断新密码与确认密码是否一致
+    function ifPassword() {
+        var newPassword = $("#newPassword").val();//新密码
+        var conPassword = $("#conPassword").val();//确认新密码
+
+        if (newPassword == conPassword) {
+            console.log("密码一致");
+            return true;
+        } else {
+            console.log("密码不一致，请确认");
+            return false;
+        }
+    }
+    //修改密码
+    function btuClick() {
+        // $("#updateBtu").click(function () {
             if (ifPassword()) {
                 $.ajax({
                     url: "/admin/updateAdminPassword",
@@ -55,23 +70,8 @@
             } else {
                 layer.msg("密码不一致，请确认");
             }
-        })
-    });
-
-    //判断新密码与确认密码是否一致
-    function ifPassword() {
-        var newPassword = $("#newPassword").val();//新密码
-        var conPassword = $("#conPassword").val();//确认新密码
-
-        if (newPassword == conPassword) {
-            console.log("密码一致");
-            return true;
-        } else {
-            console.log("密码不一致，请确认");
-            return false;
-        }
+        // })
     }
-
 </script>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -114,7 +114,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">会员管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">会员信息</a></dd>
+                        <dd><a href="userInfoList.html">会员信息</a></dd>
                         <dd><a href="javascript:;">新增会员</a></dd>
                         <dd><a href="javascript:;">会员卡查询</a></dd>
                     </dl>
@@ -217,7 +217,7 @@
         //监听提交
         form.on('submit(formDemo)', function (data) {
             //文字弹窗，获取文本弹窗
-            // layer.msg(JSON.stringify(data.field));
+            btuClick();
             return false;
         });
     });

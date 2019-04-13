@@ -13,7 +13,7 @@
     //执行返回管理员信息
     $(document).ready(function () {
         $.ajax({
-            url:"admin/getAdminInfo",
+            url:"/admin/getAdminInfo",
             type:"GET",
             success(data){
               console.log("获取得管理员信息："+data);
@@ -49,7 +49,7 @@
           Admin
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="">基本资料</a></dd>
+          <!--<dd><a href="javascript:void(0)">基本资料</a></dd>-->
           <dd><a href="myAdmin.html">安全设置</a></dd>
         </dl>
       </li>
@@ -62,8 +62,8 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">会员管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">会员信息</a></dd>
-			<dd><a href="javascript:;">新增会员</a></dd>
+            <dd><a href="userInfoList.html">会员信息</a></dd>
+			<dd><a href="addUser.html">新增会员</a></dd>
             <dd><a href="javascript:;">会员卡查询</a></dd>
           </dl>
         </li>
@@ -87,7 +87,6 @@
       </ul>
     </div>
   </div>
-  
   <div class="layui-body">
     <div style="padding: 15px;">
 		<!-- 内容主体区域 -->
@@ -100,7 +99,7 @@
 				</div>
 	</div>
   </div>
-  
+
   <div class="layui-footer">
     <!-- 底部固定区域 -->
 	金小泽后台管理系统---广东技术师范学院天河学院
@@ -111,7 +110,7 @@
 //JavaScript代码区域
 layui.use('element', function(){
   var element = layui.element;
-  
+
 });
 </script>
 </body>

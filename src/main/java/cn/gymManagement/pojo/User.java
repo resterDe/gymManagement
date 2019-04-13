@@ -28,6 +28,10 @@ public class User {
     private String regTime;
     //到期时间
     private String expireTime;
+    //用于记录会员卡名称
+    private String rankName;
+    //用于记录会员卡信息
+    private Card cards;
 
     public int getUserID() {
         return userID;
@@ -117,6 +121,22 @@ public class User {
         this.expireTime = expireTime;
     }
 
+    public String getRankName() {
+        return rankName;
+    }
+
+    public void setRankName(String rankName) {
+        this.rankName = rankName;
+    }
+
+    public Card getCards() {
+        return cards;
+    }
+
+    public void setCards(Card cards) {
+        this.cards = cards;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -131,6 +151,8 @@ public class User {
                 ", activateCode=" + activateCode +
                 ", regTime='" + regTime + '\'' +
                 ", expireTime='" + expireTime + '\'' +
+                ", rankName='" + rankName + '\'' +
+                ", cards=" + cards +
                 '}';
     }
 }

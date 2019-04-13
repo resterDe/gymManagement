@@ -118,7 +118,7 @@ public class AdminController {
     /**
      * 获取管理员信息
      */
-    @RequestMapping("getAdminInfo")
+    @RequestMapping(value = "getAdminInfo",method = RequestMethod.GET)
     @ResponseBody
     public Staff getAdminInfo(HttpSession session){
         Staff staffs= (Staff) session.getAttribute("adminSession");
