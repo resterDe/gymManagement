@@ -126,6 +126,28 @@ public class UserController {
         obj.put("data", userList);
         return obj.toJSONString();
     }
+    /**
+     * 关键字获取会员信息
+     * @param keyword 关键字包括：会员账户，会员姓名
+     * @return
+     */
+    @RequestMapping(value = "getUserListByKeyword",method = RequestMethod.GET,produces = {"text/html;charset=UTF-8;", "application/js"})
+    @ResponseBody
+    public String getUserListByKeyword(int page,int limit,@RequestParam("keyword") String keyword){
+        System.out.println("获取的keyword="+keyword);
+        //添加数据到集合中
+        int myCount=userService.getKeyUserNumber(keyword);
+        int myLimit=limit;
+        int myPage=(page - 1) * limit;
+        List<User> keyUserList=userService.getUserListByKeyword(myPage,myLimit,keyword);
+        //设置响应格式
+        JSONObject obj=new JSONObject();
+        obj.put("code", 0);
+        obj.put("msg", "");
+        obj.put("count", myCount);
+        obj.put("data", keyUserList);
+        return obj.toJSONString();
+    }
 
     /**
      * 根据会员ID删除会员

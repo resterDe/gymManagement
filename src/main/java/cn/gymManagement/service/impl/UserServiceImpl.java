@@ -128,4 +128,24 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateUserInfo(userName, userPassword, gender,
                 identityCard, phone, email, activateCode, expireTime, userID);
     }
+
+    /**
+     * 关键字查询会员信息
+     * @param keyword 关键字包括：会员账户，会员姓名
+     * @return
+     */
+    @Override
+    public List<User> getUserListByKeyword(int pages, int limits, String keyword) {
+        return userMapper.getUserListByKeyword(pages, limits, keyword);
+    }
+
+    /**
+     * 获取模糊查询数据总数
+     * @param keyword
+     * @return
+     */
+    @Override
+    public int getKeyUserNumber(String keyword) {
+        return userMapper.getKeyUserNumber(keyword);
+    }
 }

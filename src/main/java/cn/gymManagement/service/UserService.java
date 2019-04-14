@@ -22,4 +22,6 @@ public interface UserService {
                        @Param("gender")String gender,@Param("identityCard")String identityCard,
                        @Param("phone")String phone,@Param("email")String email,
                        @Param("activateCode")int activateCode,@Param("expireTime")String expireTime,@Param("userID")int userID);
+    List<User> getUserListByKeyword(@Param("pages") int pages, @Param("limits") int limits,@Param("keyword")String keyword);
+    int getKeyUserNumber(@Param("keyword")String keyword);
 }

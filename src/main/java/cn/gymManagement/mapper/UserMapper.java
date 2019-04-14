@@ -30,12 +30,28 @@ public interface UserMapper {
     List<User> getUserList(@Param("pages") int pages, @Param("limits") int limits);
 
     /**
+     * 关键字查询会员信息
+     * @param keyword 关键字包括：会员账户，会员姓名
+     * @return
+     */
+    @Select("select * from t_user where concat(userAccount,userName) like concat('%',#{keyword},'%') order by userID desc limit #{pages},#{limits}")
+    List<User> getUserListByKeyword(@Param("pages") int pages, @Param("limits") int limits,@Param("keyword")String keyword);
+
+    /**
      * 获取会员总条数
      *
      * @return
      */
     @Select("select count(*) from t_user")
     int getUserNumber();
+
+    /**
+     * 获取模糊查询数据总数
+     * @param keyword
+     * @return
+     */
+    @Select("select count(*) from t_user where concat(userAccount,userName) like concat('%',#{keyword},'%')")
+    int getKeyUserNumber(@Param("keyword")String keyword);
 
     /**
      * 根据id删除对应的会员
@@ -125,5 +141,7 @@ public interface UserMapper {
                        @Param("gender")String gender,@Param("identityCard")String identityCard,
                        @Param("phone")String phone,@Param("email")String email,
                        @Param("activateCode")int activateCode,@Param("expireTime")String expireTime,@Param("userID")int userID);
+
+
 
 }
