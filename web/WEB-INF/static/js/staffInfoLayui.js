@@ -1,22 +1,22 @@
 //layui JavaScript代码区域
 //定义路径修改,默认获取全部信息接口
-var newUrl = "/user/getUserList";
+var newUrl = "/staff/getStaffList";
 //初始化执行，查询全部数据
-getUserAllList();
+getStaffAllList();
 //模糊搜索
 //监听按钮,会员查询界面
 $(document).ready(function () {
     $("#key").click(function () {
         //修改接口，模糊搜索
-        newUrl = "/user/getUserListByKeyword?keyword=" + $("#keyword").val();
+        newUrl = "/staff/getStaffListByKeyword?keyword=" + $("#keyword").val();
         console.log("获取到keyword=" + $("#keyword").val());
         //开始执行模糊搜索
-        getUserAllList();
+        getStaffAllList();
     });
 });
 
 //通过关键词模糊查询显示，生成列表
-function getUserAllList() {
+function getStaffAllList() {
     var limitcount = 10;
     var curnum = 1;
     layui.use(['laydate', 'laypage', 'layer', 'table', 'element', 'form', 'layedit', 'laydate'], function () {
@@ -57,26 +57,26 @@ function getUserAllList() {
         //监听提交
         form.on('submit(save)', function (data) {
             //监听添加按钮
-            addUser();
+            addStaff();
             return false;
         });
 
         //问个好
-        layer.msg('这里是会员信息列表');
+        layer.msg('这里是员工信息列表');
         //监听Tab切换
         element.on('tab(demo)', function (data) {
             layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
                 tips: 1
             });
         });
-        //查询会员数据列表
+        //查询员工数据列表
         //执行一个 table 实例
         table.render({
             elem: '#demo',
             height: 480,
             url: newUrl,//数据接口
             method: "GET",
-            title: '会员列表',
+            title: '员工列表',
             page: true,//开启分页
             limit: 10,
             limits: [10, 20, 30],
@@ -87,18 +87,18 @@ function getUserAllList() {
                         type: 'checkbox',
                         fixed: 'left'
                     }, {
-                    field: 'userAccount',
-                    title: '会员账号',
+                    field: 'serialNumber',
+                    title: '员工编号',
                     width: 100,
                     sort: true,
                     fixed: 'left',
                 }, {
-                    field: 'userName',
-                    title: '会员名字',
+                    field: 'staffName',
+                    title: '员工姓名',
                     width: 100
                 }, {
-                    field: 'userPassword',
-                    title: '密码',
+                    field: 'identityCard',
+                    title: '身份证号',
                     width: 90,
                     sort: true,
                 }, {
@@ -107,8 +107,8 @@ function getUserAllList() {
                     width: 80,
                     sort: true
                 }, {
-                    field: 'identityCard',
-                    title: '身份证号',
+                    field: 'position',
+                    title: '职称',
                     width: 80,
                     sort: true,
                 }, {
@@ -116,16 +116,12 @@ function getUserAllList() {
                     title: '联系方式',
                     width: 150
                 }, {
-                    field: 'email',
-                    title: '电子邮箱',
-                    width: 200
-                }, {
-                    field: 'expireTime',
-                    title: '到期时间',
-                    width: 135,
+                    field: 'salary',
+                    title: '薪资',
+                    width: 100,
                     sort: true,
                 }, {
-                    field: 'regTime',
+                    field: 'staffTime',
                     title: '注册时间',
                     width: 135,
                     sort: true,
@@ -135,7 +131,7 @@ function getUserAllList() {
                     align: 'center',
                     toolbar: '#barDemo'
                 }, {
-                    fixed: 'userID',
+                    fixed: 'staffID',
                     hide: true,
                 }
                 ]
@@ -182,7 +178,8 @@ function getUserAllList() {
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        queryUserUp(checkStatus.data[0].userID);
+                        // layer.alert('编辑 [id]：' + checkStatus.data[0].staffID);
+                        queryStaffUp(checkStatus.data[0].staffID);
                     }
                     break;
                 case 'delete':
@@ -190,7 +187,7 @@ function getUserAllList() {
                         layer.msg('请选择一行');
                     } else {
                         //执行删除
-                        delUser(checkStatus.data[0].userID);
+                        delStaff(checkStatus.data[0].staffID);
                     }
                     break;
             }
@@ -200,21 +197,20 @@ function getUserAllList() {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data,//获得当前行数据
                 layEvent = obj.event; //获得 lay-event 对应的值
-            console.log(data.userID);
+            console.log(data.staffID);
             if (layEvent === 'detail') {
                 //执行查看信息
-                queryUser(data.userID);
-
+                queryStaff(data.staffID);
             } else if (layEvent === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     //obj.del(); //删除对应行（tr）的DOM结构
-                    delUser(data.userID);
+                    delStaff(data.staffID);
                     layer.close(index);
                     //向服务端发送删除指令
                 });
             } else if (layEvent === 'edit') {
-                //查询修改会员信息
-                queryUserUp(data.userID);
+                //查询修改员工信息
+                queryStaffUp(data.staffID);
                 console.log("执行查询");
             }
         });
@@ -233,13 +229,13 @@ function onAddBtn() {
         title: "新增会员",
         closeBtn: false,
         shift: 2,
-        area: ['550px'],
+        area: ['550px','600px'],
         shadeClose: true,
         // btn: ['新增', '取消'],
         // btnAlign: 'c',
         content: $("#add-main"),
         success: function (layero, index) {
-            console.log("成功弹");
+            console.log("成功弹出");
         },
         yes: function () {
         }
@@ -257,7 +253,6 @@ function onQueryBtn() {
         shadeClose: true,
         content: $("#query-main"),
         success: function (layero, index) {
-            console.log("我出来了");
 
         },
         yes: function () {
@@ -266,12 +261,12 @@ function onQueryBtn() {
 };
 
 //查询会员基本信息
-function onQueryUser(data) {
+function onQueryStaff(data) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl;
         var myDatas = {
             //数据
-            "userInfoList": data
+            "staffInfoList": data
         };
         var getTpl = myData.innerHTML, view = $("#query-main");
         laytpl(getTpl).render(myDatas, function (result) {
@@ -286,21 +281,21 @@ function onQueryUser(data) {
 };
 
 //查询会员信息修改
-function onUpdateUserInfo(data) {
+function onUpdateStaffInfo(data) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl;
         var myDatas = {
             //数据
-            "userInfoList": data
+            "staffInfoList": data
         }
-        var getTpl = userData.innerHTML, view = $("#up-main");
+        var getTpl = staffData.innerHTML, view = $("#up-main");
         laytpl(getTpl).render(myDatas, function (result) {
             //清空元素内部的html代码
             view.empty();
             //重新添加
             view.append(result);
             //弹窗
-            onUpdateUser(data.userID);
+            onUpdateStaff(data.staffID);
         });
         //渲染完必须初始化动态元素
         layui.use(['form', 'laydate', 'element'], function () {
@@ -316,7 +311,7 @@ function onUpdateUserInfo(data) {
 };
 
 //修改会员信息监听按钮
-function onUpdateUser(userID) {
+function onUpdateStaff(staffID) {
     layui.use('form', function () {
         var form = layui.form;
         layer.open({
@@ -331,7 +326,7 @@ function onUpdateUser(userID) {
                 //监听修改
                 form.on('submit(update)', function (data) {
                     //监听修改按钮
-                    upUser(userID);
+                    upStaff(staffID);
                     return false;
                 });
                 console.log("成功弹出");
@@ -342,4 +337,4 @@ function onUpdateUser(userID) {
     });
 };
 
-    
+

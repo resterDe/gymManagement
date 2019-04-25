@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 public interface AdminMapper {
     /**
      * 员工（管理员）登录
-     * @param seriaNumber
+     * @param serialNumber
      * @param newPassword
      * @return
      */
-    @Select("select * from t_staff where seriaNumber=#{seriaNumber} and newPassword=#{newPassword}")
-    Staff adminLogin(@Param("seriaNumber")int seriaNumber,@Param("newPassword")String newPassword);
+    @Select("select * from t_staff where serialNumber=#{serialNumber} and newPassword=#{newPassword}")
+    Staff adminLogin(@Param("serialNumber")int serialNumber,@Param("newPassword")String newPassword);
 
     /**
      * 修改管理员密码

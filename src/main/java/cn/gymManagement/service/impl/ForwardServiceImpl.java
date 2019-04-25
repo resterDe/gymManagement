@@ -55,4 +55,23 @@ public class ForwardServiceImpl implements ForwardService {
     public int delUserForward(int forwardID) {
         return forwardMapper.delUserForward(forwardID);
     }
+
+    /**
+     * 查询所有预约教程信息
+     * @return
+     */
+    @Override
+    public List<Forward> getForward() {
+        return forwardMapper.getForward();
+    }
+
+    /**
+     * 根据id查询单个预约详细信息
+     * @param forwardID
+     * @return
+     */
+    @Override
+    public Forward getForwardById(int forwardID) {
+        return forwardMapper.getForwardById(forwardID);
+    }
 }

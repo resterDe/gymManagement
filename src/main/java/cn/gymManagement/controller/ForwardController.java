@@ -114,4 +114,25 @@ public class ForwardController {
             return 1;
         }
     }
+
+    /**
+     * 查询预约信息
+     * @return
+     */
+    @RequestMapping(value = "getForward",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Forward> getForward(){
+        return forwardService.getForward();
+    }
+
+    /**
+     * 根据id获取预约详细信息
+     * @param forwardID
+     * @return
+     */
+    @RequestMapping(value = "getForwardById",method = RequestMethod.GET)
+    @ResponseBody
+    public Forward getForwardById(int forwardID){
+        return forwardService.getForwardById(forwardID);
+    }
 }

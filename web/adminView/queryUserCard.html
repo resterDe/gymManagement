@@ -1,37 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>金小泽健身房后台管理</title>
+    <title>会员卡信息查询</title>
     <!--layui CSS-->
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <!--jquery-->
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="../static/template/art-template.js"></script>
+    <!--引入layui.js-->
+    <script src="../static/layui/layui.js"></script>
+    <!--新增会员js-->
+    <script src="../static/js/userInfoAjax.js"></script>
+    <!--layui js操作-->
+    <script src="../static/js/userCard.js"></script>
 </head>
-<script type="text/javascript">
-    //执行返回管理员信息
-    $(document).ready(function () {
-        $.ajax({
-            url: "/admin/getAdminInfo",
-            type: "GET",
-            success(data) {
-                console.log("获取得管理员信息：" + data);
-            },
-            error() {
-                console.log("网络获取失败，请刷新重试");
-            }
-        })
-    })
-</script>
-<body class="layui-layout-body">
+<body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">JXZ 后台管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <!-- <li class="layui-nav-item"><a href="">系统设置</a></li> -->
-            <!-- <li class="layui-nav-item"><a href="">商品管理</a></li> -->
             <li class="layui-nav-item"><a href="main.html"><i class="layui-icon layui-icon-refresh"></i>&nbsp;回到首页</a>
             </li>
             <li class="layui-nav-item">
@@ -49,6 +40,7 @@
                     Admin
                 </a>
                 <dl class="layui-nav-child">
+                    <!--<dd><a href="javascript:void(0)">基本资料</a></dd>-->
                     <dd><a href="myAdmin.html">安全设置</a></dd>
                 </dl>
             </li>
@@ -63,7 +55,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="userInfoList.html">会员信息</a></dd>
                         <dd><a href="addUser.html">新增会员</a></dd>
-                        <!--<dd><a href="queryUserCard.html">会员卡查询</a></dd>-->
+                        <!--<dd class="layui-this"><a href="queryUserCard.html">会员卡查询</a></dd>-->
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -82,34 +74,47 @@
                         <!--<dd><a href="javascript:;">薪资管理（待定）</a></dd>-->
                     </dl>
                 </li>
+
             </ul>
         </div>
     </div>
+    <!------------------显示表格数据 start---------------->
     <div class="layui-body">
         <div style="padding: 15px;">
-            <!-- 内容主体区域 -->
-            <div class="layui-anim layui-anim-up">
-                <fieldset class="layui-elem-field layui-field-title">
-                    <legend>使用说明</legend>
-                </fieldset>
-                <!--嵌套页面-->
-                <iframe src="textExplain.html" frameborder="0" width="100%" height="800px"></iframe>
+            <!--搜索选择框-->
+            <div class="layui-form">
+                <div class="layui-form-item" style="margin-top: 10px">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员类型：</label>
+                        <div class="layui-input-inline">
+                            <select name="keyword" lay-filter="business" lay-verify="required" lay-search="">
+                                <option value="">直接选择或搜索选择</option>
+                                <option value="铜牌会员">铜牌会员</option>
+                                <option value="银牌会员">银牌会员</option>
+                                <option value="金牌会员">金牌会员</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- 内容主体区域 -->
+            <table class="layui-hide" id="demo" lay-filter="test" lay-data="{id:'userID'}">
+                <!--表格实体-->
+            </table>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
         </div>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         金小泽后台管理系统---广东技术师范学院天河学院
     </div>
 </div>
-<script src="../static/layui/layui.js"></script>
 <script>
-    //JavaScript代码区域
-    layui.use('element', function () {
-        var element = layui.element;
 
-    });
 </script>
 </body>
 </html>

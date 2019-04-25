@@ -24,11 +24,11 @@ public interface ForwardMapper {
      * @param userID
      * @return
      */
+    @Select("select * from t_forward where userID=#{userID}")
     @Results({
             @Result(id=true,column = "courseID",property = "courseID"),
             @Result(column = "courseID",property = "courseList",many = @Many(select = "cn.gymManagement.mapper.CourseMapper.getCourseByUserID"))
     })
-    @Select("select * from t_forward where userID=#{userID}")
     List<Forward> getUserForward(@Param("userID")int userID);
 
     /**
@@ -47,4 +47,31 @@ public interface ForwardMapper {
      */
     @Delete("delete from t_forward where forwardID=#{forwardID}")
     int delUserForward(@Param("forwardID")int forwardID);
+
+    /**
+     * 查询所有预约教程信息
+     * @return
+     */
+    @Select("select * from t_forward")
+    @Results({
+            @Result(id=true,column = "courseID",property = "courseID"),
+            @Result(column = "courseID",property = "courseInfo",many = @Many(select = "cn.gymManagement.mapper.CourseMapper.getCourseListById")),
+            @Result(id=true,column = "userID",property = "userID"),
+            @Result(column = "userID",property = "userInfo",many = @Many(select = "cn.gymManagement.mapper.UserMapper.getUserInfoById")),
+    })
+    List<Forward> getForward();
+
+    /**
+     * 根据id查询单个预约详细信息
+     * @param forwardID
+     * @return
+     */
+    @Select("select * from t_forward where forwardID=#{forwardID}")
+    @Results({
+            @Result(id=true,column = "courseID",property = "courseID"),
+            @Result(column = "courseID",property = "courseInfo",many = @Many(select = "cn.gymManagement.mapper.CourseMapper.getCourseListById")),
+            @Result(id=true,column = "userID",property = "userID"),
+            @Result(column = "userID",property = "userInfo",many = @Many(select = "cn.gymManagement.mapper.UserMapper.getUserInfoById")),
+    })
+    Forward getForwardById(@Param("forwardID")int forwardID);
 }

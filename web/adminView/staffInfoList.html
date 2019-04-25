@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>会员信息列表</title>
+    <meta charset="UTF-8">
+    <title>员工信息列表</title>
     <!--layui CSS-->
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <!--jquery-->
@@ -13,9 +12,9 @@
     <!--引入layui.js-->
     <script src="../static/layui/layui.js"></script>
     <!--userInfo ajax js-->
-    <script src="../static/js/userInfoAjax.js"></script>
+    <script src="../static/js/staffInfoAjax.js"></script>
     <!--userInfo layui js操作-->
-    <script src="../static/js/userInfoLayui.js"></script>
+    <script src="../static/js/staffInfoLayui.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -28,6 +27,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">系统维护</a>
                 <dl class="layui-nav-child">
+                    <!--<dd><a href="">会员设置</a></dd>-->
                     <dd><a href="forwardList.html">预约信息</a></dd>
                     <dd><a href="">公告管理</a></dd>
                 </dl>
@@ -50,10 +50,10 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;">会员管理</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="userInfoList.html">会员信息</a></dd>
+                        <dd><a href="userInfoList.html">会员信息</a></dd>
                         <dd><a href="addUser.html">新增会员</a></dd>
                         <!--<dd><a href="queryUserCard.html">会员卡查询</a></dd>-->
                     </dl>
@@ -66,10 +66,10 @@
                         <dd><a href="addCourse.html">添加新教程</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item  layui-nav-itemed">
                     <a href="javascript:;">员工管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="staffInfoList.html">在职员工</a></dd>
+                        <dd class="layui-this"><a href="staffInfoList.html">在职员工</a></dd>
                         <dd><a href="addStaff.html">添加员工</a></dd>
                         <!--<dd><a href="javascript:;">薪资管理（待定）</a></dd>-->
                     </dl>
@@ -106,36 +106,37 @@
         </div>
     </div>
     <!----------------end-------------------->
+
     <!--弹出增加框 start-->
     <div id="add-main" class="layui-form" style="display: none;">
         <!--内容主体-->
         <form id="add-form">
             <div class="layui-form-item center" style="margin-top: 10px">
-                <label class="layui-form-label" style="width: 100px;">会员姓名</label>
+                <label class="layui-form-label" style="width: 100px;">员工姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="userName" id="userName" required value="" style="width: 240px"
+                    <input type="text" name="staff_Name" id="staff_Name" required value="" style="width: 240px"
                            lay-verify="required"
-                           placeholder="请输入会员姓名"
+                           placeholder="请输入员工姓名"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">会员账号</label>
+                <label class="layui-form-label" style="width: 100px">员工编号</label>
                 <div class="layui-input-block">
-                    <input type="number" name="userAccount" id="userAccount" required style="width: 240px"
+                    <input type="number" name="serialNumber" id="serialNumber" required style="width: 240px"
                            lay-verify="required"
-                           placeholder="请输入会员账号(输入前缀)"
+                           placeholder="请输入员工账号(输入前缀)"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">会员密码</label>
-                <div class="layui-input-inline" style="width: 240px">
-                    <input type="password" name="userPassword" id="userPassword" lay-verify="pass" placeholder="请输入密码"
-                           autocomplete="off"
-                           class="layui-input">
+                <label class="layui-form-label" style="width: 100px">员工月薪</label>
+                <div class="layui-input-block">
+                    <input type="number" name="staffSalary" id="staffSalary" required style="width: 240px"
+                           lay-verify="required"
+                           placeholder="请输入员工合理月薪(整数)"
+                           autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 100px">身份证</label>
@@ -147,48 +148,40 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">验证手机</label>
+                    <label class="layui-form-label" style="width: 100px">联系方式</label>
                     <div class="layui-input-inline" style="width: 240px">
                         <input type="tel" name="phone" id="phone" lay-verify="required|phone" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item center" style="margin-top: 10px">
+                <label class="layui-form-label" style="width: 100px;">员工住址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="staffAddress" id="staffAddress" required value="" style="width: 240px"
+                           lay-verify="required"
+                           placeholder="请输入员工地址"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">验证邮箱</label>
-                    <div class="layui-input-inline" style="width: 240px">
-                        <input type="text" name="email" id="email" lay-verify="email" autocomplete="off"
-                               class="layui-input">
-                    </div>
+                <label class="layui-form-label" style="width: 100px">年龄</label>
+                <div class="layui-input-block">
+                    <input type="number" name="age" id="age" required style="width: 240px"
+                           lay-verify="required"
+                           placeholder="请输入合法年龄"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">注册时间</label>
-                    <div class="layui-input-inline" style="width: 240px">
-                        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">到期时间</label>
-                    <div class="layui-input-inline" style="width: 240px">
-                        <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">会员级别</label>
+                <label class="layui-form-label" style="width: 100px">职称</label>
                 <div class="layui-input-inline" style="width: 240px">
-                    <select name="rankName" id="rankName" style="width: 240px;" lay-filter="aihao">
-                        <option value=""></option>
-                        <option value="铜牌会员">铜牌会员</option>
-                        <option value="银牌会员">银牌会员</option>
-                        <option value="金牌会员">金牌会员</option>
+                    <select name="staffPosition" id="staffPosition" style="width: 240px;" lay-filter="aihao">
+                        <option value="教练">教练</option>
+                        <option value="经理">经理</option>
+                        <option value="管理员">管理员</option>
+                        <option value="普通员工">普通员工</option>
                     </select>
                 </div>
             </div>
@@ -197,6 +190,21 @@
                 <div class="layui-input-block">
                     <input type="radio" name="gender" value="男" title="男" checked="">
                     <input type="radio" name="gender" value="女" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" style="width: 100px;">员工介绍</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入员工描述:" id="staffIntroduce" style="width: 240px" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 100px">入职时间</label>
+                    <div class="layui-input-inline" style="width: 240px">
+                        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
+                               autocomplete="off" class="layui-input">
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -228,44 +236,34 @@
                 <!---->
             </tr>
             <tr>
-                <td>会员账号:</td>
-                <td>{{ d.userInfoList.userAccount }}</td>
-                <td>登录密码:</td>
-                <td>{{ d.userInfoList.userPassword}}</td>
-                <td>是否激活:</td>
-                {{# if(d.userInfoList.activateCode==1){ }}
-                <td>已激活</td>
-                {{# }else{ }}
-                <td>未激活</td>
-                {{# } }}
-            </tr>
-            <tr>
-                <td>会员名字:</td>
-                <td>{{ d.userInfoList.userName }}</td>
-
+                <td>员工姓名:</td>
+                <td>{{ d.staffInfoList.staffName }}</td>
+                <td>年龄:</td>
+                <td>{{ d.staffInfoList.age }}</td>
                 <td>性别:</td>
-                <td>{{ d.userInfoList.gender }}</td>
-
+                <td>{{ d.staffInfoList.gender }}</td>
+            </tr>
+            <tr>
                 <td>身份证号:</td>
-                <td>{{ d.userInfoList.identityCard }}</td>
-            </tr>
-            <tr>
+                <td>{{ d.staffInfoList.identityCard }}</td>
+
                 <td>联系方式:</td>
-                <td>{{ d.userInfoList.phone }}</td>
+                <td>{{ d.staffInfoList.phone }}</td>
 
-                <td>电子邮箱:</td>
-                <td>{{ d.userInfoList.email }}</td>
-                <td>注册时间:</td>
-                <td>{{ d.userInfoList.regTime }}</td>
+                <td>家庭住址:</td>
+                <td>{{ d.staffInfoList.address }}</td>
             </tr>
             <tr>
-                <td>到期时间:</td>
-                <td>{{ d.userInfoList.expireTime }}</td>
-
-                <td>会员级别:</td>
-                <td>{{ d.userInfoList.cards.rankName }}</td>
-                <td>有效时间:</td>
-                <td>{{ d.userInfoList.cards.validTime }}</td>
+                <td>职称:</td>
+                <td>{{ d.staffInfoList.position }}</td>
+                <td>员工编号:</td>
+                <td>{{ d.staffInfoList.serialNumber }}</td>
+                <td>注册时间:</td>
+                <td>{{ d.staffInfoList.staffTime }}</td>
+            </tr>
+            <tr>
+                <td>员工简介:</td>
+                <td>{{ d.staffInfoList.introduce }}</td>
             </tr>
             </tbody>
         </table>
@@ -276,99 +274,71 @@
     <!--修改信息弹出框start-->
     <div id="up-main" class="layui-form" style="display: none;"></div>
     <!--内容主体模板-->
-    <script type="text/html" id="userData">
+    <script type="text/html" id="staffData">
         <form id="up-form">
             <div class="layui-form-item center" style="margin-top: 10px">
-                <label class="layui-form-label" style="width: 100px;">会员姓名</label>
+                <label class="layui-form-label" style="width: 100px;">员工姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="userName" id="up_userName" required value="{{ d.userInfoList.userName }}"
+                    <input type="text" name="staffName" id="staffName" required value="{{ d.staffInfoList.staffName }}"
                            style="width: 240px"
                            lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">会员密码</label>
+                <label class="layui-form-label" style="width: 100px">员工密码</label>
                 <div class="layui-input-inline" style="width: 240px">
-                    <input type="password" name="userPassword" id="up_userPassword" lay-verify="pass"
-                           value="{{ d.userInfoList.userPassword }}"
+                    <input type="password" name="newPassword" id="newPassword" lay-verify="pass"
+                           value="{{ d.staffInfoList.newPassword }}"
                            autocomplete="off"
-                           class="layui-input">
+                           class="layui-input" placeholder="请填写6到12位密码">
                 </div>
-                <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+                <div class="layui-form-mid layui-word-aux">默认为身份证后六位</div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">身份证</label>
-                <div class="layui-input-inline" style="width: 240px">
-                    <input type="text" name="identityCard" id="up_identityCard" lay-verify="identity"
-                           value="{{ d.userInfoList.identityCard }}"
-                           autocomplete="off"
-                           class="layui-input">
+            <div class="layui-form-item center" style="margin-top: 10px">
+                <label class="layui-form-label" style="width: 100px;">住址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address" id="address" required value="{{ d.staffInfoList.address }}"
+                           style="width: 240px"
+                           lay-verify="required"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: 100px">验证手机</label>
                     <div class="layui-input-inline" style="width: 240px">
-                        <input type="tel" name="phone" id="up_phone" value="{{ d.userInfoList.phone }}"
+                        <input type="tel" name="phone" id="staffPhone" value="{{ d.staffInfoList.phone }}"
                                lay-verify="required|phone" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">验证邮箱</label>
-                    <div class="layui-input-inline" style="width: 240px">
-                        <input type="text" name="email" id="up_email" value="{{ d.userInfoList.email }}"
-                               lay-verify="email" autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px">到期时间</label>
-                    <div class="layui-input-inline" style="width: 240px">
-                        <input type="text" name="date2" id="date2" value="{{ d.userInfoList.expireTime }}"
-                               lay-verify="date"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">会员级别</label>
+                <label class="layui-form-label" style="width: 100px">职称</label>
                 <div class="layui-input-inline" style="width: 240px">
-                    <select name="rankName" id="up_rankName" style="width: 240px;" lay-filter="aihao">
-                        <option value="{{ d.userInfoList.cards.rankName }}">{{ d.userInfoList.cards.rankName }}</option>
-                        <option value="铜牌会员">铜牌会员</option>
-                        <option value="银牌会员">银牌会员</option>
-                        <option value="金牌会员">金牌会员</option>
+                    <select name="position" id="position" style="width: 240px;" lay-filter="aihao">
+                        <option value="{{ d.staffInfoList.position }}">{{ d.staffInfoList.position }}</option>
+                        <option value="教练">教练</option>
+                        <option value="经理">经理</option>
+                        <option value="管理员">管理员</option>
                     </select>
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">性别</label>
-                <div class="layui-input-block">
-                    {{# if(d.userInfoList.gender=="男"){ }}
-                    <input type="radio" name="up_gender" value="男" title="男" checked="">
-                    <input type="radio" name="up_gender" value="女" title="女">
-                    {{# }else{ }}
-                    <input type="radio" name="up_gender" value="男" title="男">
-                    <input type="radio" name="up_gender" value="女" title="女" checked="">
-                    {{# } }}
+                <label class="layui-form-label" style="width: 100px">薪资</label>
+                <div class="layui-input-inline" style="width: 240px">
+                    <input type="number" name="salary" id="salary" lay-verify="required"
+                           value="{{ d.staffInfoList.salary }}"
+                           autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 100px">是否激活</label>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" style="width: 100px;">教程介绍</label>
                 <div class="layui-input-block">
-                    {{# if(d.userInfoList.activateCode==1){ }}
-                    <input type="radio" name="activateCode" value="1" title="是" checked="">
-                    <input type="radio" name="activateCode" value="0" title="否">
-                    {{# }else{ }}
-                    <input type="radio" name="activateCode" value="1" title="是">
-                    <input type="radio" name="activateCode" value="0" title="否" checked="">
-                    {{# } }}
+                    <textarea placeholder="" id="introduce" style="width: 240px" class="layui-textarea">{{ d.staffInfoList.introduce }}</textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -381,6 +351,7 @@
     </script>
 
     <!----------end---------->
+
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         金小泽后台管理系统---广东技术师范学院天河学院

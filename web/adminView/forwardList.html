@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预约教程信息</title>
+    <!--layui CSS-->
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <!--jquery-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <!--<script src="../static/template/art-template.js"></script>-->
+    <!--引入layui.js-->
+    <script src="../static/layui/layui.js"></script>
+</head>
+<script>
+    layui.use(['form', 'layer', 'element', 'layedit', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        // <!--请求js ajax-->
+        //预加载请求数据
+        $(document).ready(function () {
+            $.ajax({
+                url: "/forward/getForward",
+                type: "GET",
+                success(data) {
+                    console.log(data);
+                    //开始渲染模板
+                    forwardInfo(data);
+                    layer.msg("显示预约信息");
+                },
+                error() {
+                    console.log("网络出错，请刷新重试");
+                    layer.msg("网络出错，请刷新重试");
+                }
+            })
+        });
+
+        //渲染展示信息
+        function forwardInfo(data) {
+            layui.use('laytpl', function () {
+                var laytpl = layui.laytpl;
+                var forwardDataList = {
+                    //数据
+                    "forwardInfoList": data,
+                };
+                var getTpl = forwardData.innerHTML, view = $("#forward");
+                laytpl(getTpl).render(forwardDataList, function (result) {
+                    view.append(result);
+                })
+            });
+        }
+    });
+
+    //监听查看按钮
+    function onForward(forwardID) {
+        $.ajax({
+            url: "/forward/getForwardById",
+            type: "GET",
+            data: {
+                "forwardID": forwardID
+            },
+            success(data) {
+                console.log("点击查看" + data);
+                //渲染信息
+                queryForward(data);
+            },
+            error() {
+                console.log("网络出错");
+            }
+        })
+    };
+
+    //渲染查看信息
+    function queryForward(data) {
+        layui.use('laytpl', function () {
+            var laytpl = layui.laytpl;
+            var forwardData = {
+                //数据
+                "forwardInfo": data
+            };
+            var getTpl = queryForwardInfo.innerHTML, view = $("#query-forward");
+            laytpl(getTpl).render(forwardData, function (result) {
+                //清空元素内部html代码
+                view.empty();
+                //重新添加
+                view.append(result);
+                //弹窗显示
+                createForward();
+            })
+        });
+    };
+
+    //建立查看信息弹窗
+    function createForward() {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+
+            //建立查询信息弹框
+            layer.open({
+                type: 1,
+                title: "预约详细信息",
+                closeBtn: false,
+                offset: ['100px'],
+                shift: 1,
+                area: ['600px'],
+                shadeClose: true,
+                content: $("#query-forward"),
+                success: function (layero, index) {
+                    layer.msg("查询成功");
+                },
+                yes: function () {
+
+                }
+            })
+        });
+    };
+
+    //监听删除按钮
+    function delForward(forwardID) {
+        $.ajax({
+            url: "/forward/delUserForward",
+            type: "POST",
+            data: {
+                _method: "DELETE",
+                "forwardID": forwardID
+            },
+            success(data) {
+                console.log(data);
+                if (data == 0) {
+                    console.log("删除成功");
+                    alert("删除成功");
+                    window.location.reload();
+                } else {
+                    console.log("删除失败");
+                    alert("删除失败");
+                }
+            },
+            error() {
+                console.log("网络出错");
+            }
+        })
+    }
+</script>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">JXZ 后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!-- <li class="layui-nav-item"><a href="">系统设置</a></li> -->
+            <!-- <li class="layui-nav-item"><a href="">商品管理</a></li> -->
+            <li class="layui-nav-item"><a href="main.html"><i class="layui-icon layui-icon-refresh"></i>&nbsp;回到首页</a>
+            <li class="layui-nav-item">
+                <a href="javascript:;">系统维护</a>
+                <dl class="layui-nav-child">
+                    <!--<dd><a href="">会员设置</a></dd>-->
+                    <dd><a href="forwardList.html">预约信息</a></dd>
+                    <dd><a href="">公告管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="myAdmin.html">安全设置</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">会员管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="userInfoList.html">会员信息</a></dd>
+                        <dd><a href="addUser.html">新增会员</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">教程管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="courseList.html">已开设教程</a></dd>
+                        <!--<dd><a href="javascript:;">已过期课程</a></dd>-->
+                        <dd><a href="addCourse.html">添加新教程</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">员工管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="staffInfoList.html">在职员工</a></dd>
+                        <dd><a href="addStaff.html">添加员工</a></dd>
+                        <!--<dd><a href="javascript:;">薪资管理（待定）</a></dd>-->
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <div style="padding: 15px;">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>预约信息</legend>
+            </fieldset>
+            <div class="layui-anim layui-anim-up">
+                <div class="grid grid-pad" id="forward">
+                    <!--内容放置-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        金小泽后台管理系统---广东技术师范学院天河学院
+    </div>
+</div>
+<!--查看信息窗口弹出-->
+<div id="query-forward" style="display: none"></div>
+<!--end-->
+
+<!--------------------预加载列表模板 start-------------------------->
+<script id="forwardData" type="text/html">
+    <div class="layui-field-box">
+        <table class="layui-table">
+            <colgroup>
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>预约会员</th>
+                <th>教程名称</th>
+                <th>教练姓名</th>
+                <th>预约时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {{# layui.each(d.forwardInfoList,function(index,item){ }}
+            <tr>
+                <td>
+                    {{ item.userInfo.userName }}
+                </td>
+                <td>
+                    {{ item.courseInfo.courseName }}
+                </td>
+                <td>
+                    {{ item.courseInfo.staffs.staffName }}
+                </td>
+                <td>
+                    {{ item.forwardTime }}
+                </td>
+                <td>
+                    <button class="layui-btn layui-btn-sm" type="button"
+                            onclick="onForward('{{ item.forwardID }}')">查看
+                    </button>
+                    <button class="layui-btn layui-btn-sm layui-btn-danger" type="button"
+                            onclick="delForward('{{ item.forwardID }}')">删除
+                    </button>
+                </td>
+            </tr>
+            {{# }); }}
+            {{# if(d.forwardInfoList.length === 0){ }}
+            无数据
+            {{# } }}
+            </tbody>
+        </table>
+    </div>
+</script>
+<!------------------------------预加载列表 end------------------------->
+
+
+<!------------------------查看详细信息模板 start--------------------->
+<script type="text/html" id="queryForwardInfo">
+    <div style="height: 20px"></div>
+    <table class="layui-table" lay-even="" lay-skin="nob">
+        <colgroup>
+            <col width="90">
+            <col width="90">
+            <col width="90">
+            <col width="90">
+            <col width="90">
+        </colgroup>
+        <tbody>
+        <tr>
+            <!---->
+        </tr>
+        <tr>
+            <td>预约会员:</td>
+            <td>{{ d.forwardInfo.userInfo.userName }}</td>
+            <td>联系方式:</td>
+            <td>{{ d.forwardInfo.userInfo.phone }}</td>
+        </tr>
+        <tr>
+            <td>预约教程:</td>
+            <td>{{ d.forwardInfo.courseInfo.courseName }}</td>
+
+            <td>已预约人数:</td>
+            <td>{{ d.forwardInfo.courseInfo.reservationNumber }}</td>
+        </tr>
+        <tr>
+            <td>教练名称:</td>
+            <td>{{ d.forwardInfo.courseInfo.staffs.staffName }}</td>
+
+            <td>联系方式:</td>
+            <td>{{ d.forwardInfo.courseInfo.staffs.phone }}</td>
+
+        </tr>
+        <tr>
+            <td>教练介绍:</td>
+            <td>{{ d.forwardInfo.courseInfo.staffs.introduce }}</td>
+            <td>训练地点:</td>
+            <td>{{ d.forwardInfo.courseInfo.site }}</td>
+        </tr>
+        <tr>
+            <td>预约时间:</td>
+            <td>{{ d.forwardInfo.forwardTime }}</td>
+            <td>
+                持续时间:
+            </td>
+            <td rowspan="2">{{ d.forwardInfo.courseInfo.courseTime }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="height: 20px"></div>
+</script>
+<!------------------------查看详细信息 end--------------------------->
+
+</body>
+</html>

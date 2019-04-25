@@ -24,4 +24,5 @@ public interface UserService {
                        @Param("activateCode")int activateCode,@Param("expireTime")String expireTime,@Param("userID")int userID);
     List<User> getUserListByKeyword(@Param("pages") int pages, @Param("limits") int limits,@Param("keyword")String keyword);
     int getKeyUserNumber(@Param("keyword")String keyword);
+    User getUsersById(@Param("userID")int userID);
 }

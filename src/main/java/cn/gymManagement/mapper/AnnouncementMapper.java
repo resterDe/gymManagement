@@ -1,7 +1,10 @@
 package cn.gymManagement.mapper;
 
 import cn.gymManagement.pojo.Announcement;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +21,30 @@ public interface AnnouncementMapper {
      */
     @Select("select * from t_announcement")
     List<Announcement> getAnnListAll();
+
+    /**
+     * 根据id查询所有公告信息
+     * @param annID
+     * @return
+     */
+    @Select("select * from t_announcement where annID=#{annID}")
+    Announcement getAnnInfo(@Param("annID")int annID);
+
+    /**
+     * 修改公告信息
+     * @param headline 标题
+     * @param content 内容
+     * @param annTime 发布时间
+     * @return
+     */
+    @Update("update t_announcement set headline=#{headline},content=#{content},annTime=#{annTime} where annID=#{annID}")
+    int updateAnnInfo(@Param("headline")String headline,@Param("content")String content,@Param("annTime")String annTime,@Param("annID")int annID);
+
+    /**
+     * 根据id删除公告
+     * @param annID
+     * @return
+     */
+    @Delete("delete from t_announcement where annID=#{annID}")
+    int delAnnInfo(@Param("annID")int annID);
 }

@@ -13,4 +13,8 @@ public interface ForwardService {
     List<Forward> selectUserCourse(@Param("userID")int userID);
 
     int delUserForward(@Param("forwardID")int forwardID);
+
+    List<Forward> getForward();
+
+    Forward getForwardById(@Param("forwardID")int forwardID);
 }

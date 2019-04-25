@@ -1,22 +1,22 @@
-//layui JavaScript代码区域
-//定义路径修改,默认获取全部信息接口
-var newUrl = "/user/getUserList";
-//初始化执行，查询全部数据
-getUserAllList();
-//模糊搜索
-//监听按钮,会员查询界面
-$(document).ready(function () {
-    $("#key").click(function () {
-        //修改接口，模糊搜索
-        newUrl = "/user/getUserListByKeyword?keyword=" + $("#keyword").val();
-        console.log("获取到keyword=" + $("#keyword").val());
-        //开始执行模糊搜索
-        getUserAllList();
+// JavaScript代码区域
+//定义默认查询全部会员信息
+var cardUrl="/card/getUserCardList";
+//初始化执行
+queryCard();
+//监听事件
+layui.use('form',function () {
+    var form = layui.form;
+    //监听选择搜索框,更改接口
+    form.on('select(business)', function (data) {
+        console.log("选中了：" + data.value);//被选中的文本
+        cardUrl = "/card/getUserCardByName?rankName="+data.value;
+        console.log("执行了选择搜索框");
+        //执行类型搜索
+        queryCard();
+        return false;
     });
 });
-
-//通过关键词模糊查询显示，生成列表
-function getUserAllList() {
+function queryCard() {
     var limitcount = 10;
     var curnum = 1;
     layui.use(['laydate', 'laypage', 'layer', 'table', 'element', 'form', 'layedit', 'laydate'], function () {
@@ -26,7 +26,7 @@ function getUserAllList() {
             ,
             table = layui.table //表格
             ,
-            element = layui.element ;//元素操作
+            element = layui.element //元素操作
         //--------弹出框操作------
         var form = layui.form,
             layer = layui.layer,
@@ -60,7 +60,6 @@ function getUserAllList() {
             addUser();
             return false;
         });
-
         //问个好
         layer.msg('这里是会员信息列表');
         //监听Tab切换
@@ -74,7 +73,7 @@ function getUserAllList() {
         table.render({
             elem: '#demo',
             height: 480,
-            url: newUrl,//数据接口
+            url: cardUrl,//数据接口,关键字搜索
             method: "GET",
             title: '会员列表',
             page: true,//开启分页
@@ -87,7 +86,7 @@ function getUserAllList() {
                         type: 'checkbox',
                         fixed: 'left'
                     }, {
-                    field: 'userAccount',
+                    field: 'users',
                     title: '会员账号',
                     width: 100,
                     sort: true,
@@ -182,7 +181,7 @@ function getUserAllList() {
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        queryUserUp(checkStatus.data[0].userID);
+                        layer.alert('编辑 [id]：' + checkStatus.data[0].userID);
                     }
                     break;
                 case 'delete':
@@ -218,128 +217,5 @@ function getUserAllList() {
                 console.log("执行查询");
             }
         });
-        //底部信息
-        // var footerTpl = lay('#footer')[0].innerHTML;
-        // lay('#footer').html(layui.laytpl(footerTpl).render({}))
-        //     .removeClass('layui-hide');
-
     });
-};
-
-//创建layer弹窗---增加
-function onAddBtn() {
-    layer.open({
-        type: 1,
-        title: "新增会员",
-        closeBtn: false,
-        shift: 2,
-        area: ['550px'],
-        shadeClose: true,
-        // btn: ['新增', '取消'],
-        // btnAlign: 'c',
-        content: $("#add-main"),
-        success: function (layero, index) {
-            console.log("成功弹");
-        },
-        yes: function () {
-        }
-    });
-};
-
-//创建一个layer弹窗---查询
-function onQueryBtn() {
-    layer.open({
-        type: 1,
-        title: "会员基本信息",
-        closeBtn: false,
-        shift: 2,
-        area: ['800px'],
-        shadeClose: true,
-        content: $("#query-main"),
-        success: function (layero, index) {
-            console.log("我出来了");
-
-        },
-        yes: function () {
-        }
-    })
-};
-
-//查询会员基本信息
-function onQueryUser(data) {
-    layui.use('laytpl', function () {
-        var laytpl = layui.laytpl;
-        var myDatas = {
-            //数据
-            "userInfoList": data
-        };
-        var getTpl = myData.innerHTML, view = $("#query-main");
-        laytpl(getTpl).render(myDatas, function (result) {
-            //清空元素内部的html代码
-            view.empty();
-            //重新添加
-            view.append(result);
-            //弹窗
-            onQueryBtn();
-        });
-    })
-};
-
-//查询会员信息修改
-function onUpdateUserInfo(data) {
-    layui.use('laytpl', function () {
-        var laytpl = layui.laytpl;
-        var myDatas = {
-            //数据
-            "userInfoList": data
-        }
-        var getTpl = userData.innerHTML, view = $("#up-main");
-        laytpl(getTpl).render(myDatas, function (result) {
-            //清空元素内部的html代码
-            view.empty();
-            //重新添加
-            view.append(result);
-            //弹窗
-            onUpdateUser(data.userID);
-        });
-        //渲染完必须初始化动态元素
-        layui.use(['form', 'laydate', 'element'], function () {
-            var element = layui.element, laydate = layui.laydate, form = layui.form;
-            //初始化动态元素，一些动态生成的元素如果不设置初始化，将不会有默认的动态效果
-            element.render();
-            form.render();
-            laydate.render({
-                elem: '#date2'
-            });
-        });
-    })
-};
-
-//修改会员信息监听按钮
-function onUpdateUser(userID) {
-    layui.use('form', function () {
-        var form = layui.form;
-        layer.open({
-            type: 1,
-            title: "修改会员信息",
-            closeBtn: false,
-            shift: 2,
-            area: ['550px'],
-            shadeClose: true,
-            content: $("#up-main"),
-            success: function (layero, index) {
-                //监听修改
-                form.on('submit(update)', function (data) {
-                    //监听修改按钮
-                    upUser(userID);
-                    return false;
-                });
-                console.log("成功弹出");
-            },
-            yes: function () {
-            }
-        });
-    });
-};
-
-    
+}

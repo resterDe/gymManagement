@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公告</title>
+    <!--layui CSS-->
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <!--jquery-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="../static/template/art-template.js"></script>
+    <!--引入layui.js-->
+    <script src="../static/layui/layui.js"></script>
+</head>
+<script>
+    layui.use(['form', 'layer', 'element', 'layedit', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            element = layui.element,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem:'#date2'
+        });
+
+    });
+
+    //建立一个信息查询弹窗
+    function queryAnn() {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+
+            //建立查询信息弹框
+            layer.open({
+                type: 1,
+                title: "公告详细信息",
+                closeBtn: false,
+                offset: ['100px'],
+                shift: 1,
+                area: ['600px'],
+                shadeClose: true,
+                content: $("#query-annInfo"),
+                success: function (layero, index) {
+                    layer.msg("查询成功");
+                },
+                yes: function () {
+
+                }
+            })
+        });
+    }
+
+    //建立一个信息编辑弹窗
+    function onEditAnn(annID) {
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer,
+                form = layui.form;
+            //建立查询信息弹框
+            layer.open({
+                type: 1,
+                title: "公告详细信息",
+                closeBtn: false,
+                offset: ['30px'],
+                shift: 1,
+                area: ['600px'],
+                shadeClose: true,
+                content: $("#edit-annInfo"),
+                success: function (layero, index) {
+                    form.on('submit(updateAnn)', function (data) {
+                        //监听修改按钮
+                        layer.msg("修改中...");
+                        editAjax(annID);
+                        return false;
+                    });
+                },
+                yes: function () {
+
+                }
+            })
+        });
+    }
+
+    //请求查看信息
+    function query(id) {
+        console.log("查看:" + id);
+        $.ajax({
+            url: "/announcement/getAnnById",
+            type: "GET",
+            data: {
+                "annID": id
+            },
+            success(data) {
+                console.log(data);
+                queryInfo(data);
+            },
+            error() {
+                console.log("请检查网络");
+            }
+        });
+    };
+
+    //渲染信息列表
+    function queryInfo(data) {
+        layui.use('laytpl', function () {
+            var laytpl = layui.laytpl;
+            var annData = {
+                //数据
+                "annInfoList": data
+            };
+            var getTpl = annDataInfo.innerHTML, view = $("#query-annInfo");
+            laytpl(getTpl).render(annData, function (result) {
+                //清空元素内部html代码
+                view.empty();
+                //重新添加
+                view.append(result);
+                //弹窗显示
+                queryAnn();
+            })
+        });
+    };
+
+    //编辑查询需要的信息
+    function editquery(id) {
+        $.ajax({
+            url: "/announcement/getAnnById",
+            type: "GET",
+            data: {
+                "annID": id,
+            },
+            success(data) {
+                console.log("编辑所需的信息：" + data);
+                editInfo(data);
+            },
+            error() {
+                console.log("请检查网络");
+            }
+        });
+    };
+
+    //渲染编辑的信息
+    function editInfo(data) {
+        layui.use('laytpl', function () {
+            var laytpl = layui.laytpl;
+            var annData = {
+                //数据
+                "annInfo": data,
+            };
+            var getTpl = editAnn.innerHTML, view = $("#edit-annInfo");
+            laytpl(getTpl).render(annData, function (result) {
+                //清空元素内部html代码
+                view.empty();
+                //重新添加
+                view.append(result);
+                //弹窗显示
+                onEditAnn(data.annID);
+            });
+            //渲染完必须初始化动态元素
+            layui.use(['form', 'laydate', 'element'], function () {
+                var element = layui.element, laydate = layui.laydate, form = layui.form;
+                //初始化动态元素，一些动态生成的元素如果不设置初始化，将不会有默认的动态效果
+                element.render();
+                form.render();
+                laydate.render({
+                    elem: '#date2'
+                });
+            });
+        })
+    };
+
+    //发送编辑信息请求
+    function editAjax(annID) {
+        $.ajax({
+            url: "/announcement/updateAnnInfo",
+            type: "POST",
+            data: {
+                _method: "PUT",
+                "annID": annID,
+                "headline": $("#headline").val(),
+                "annTime":$("#date2").val(),
+                "content": $("#content").val()
+            },
+            success(data) {
+                console.log("修改：" + data);
+                if (data == 0) {
+                    console.log("修改成功");
+                    window.location.reload();
+                } else {
+                    console.log("修改失败");
+                    window.location.reload();
+                }
+            },
+            error() {
+                console.log("网络出错");
+            }
+        });
+    }
+
+    //删除
+    function del(id) {
+        console.log("删除:" + id);
+        $.ajax({
+            url: "/announcement/delAnnInfo",
+            type: "POST",
+            data: {
+                _method: "DELETE",
+                "annID": id
+            },
+            success(data) {
+                console.log(data);
+                window.location.reload();
+            },
+            error() {
+                console.log("请检查网络");
+            }
+        });
+    };
+    //查询教程信息列表
+    $(document).ready(function () {
+        $.ajax({
+            url: "/announcement/getAnnListAll",
+            type: "GET",
+            data: {},
+            success(data) {
+                console.log(data);
+                $("#tbody")[0].innerHTML = template('test', data);
+            },
+            error() {
+                console.log("网络出错");
+            }
+        })
+    });
+</script>
+<body>
+<div style="padding: 15px;">
+    <div class="layui-anim layui-anim-up">
+        <div class="grid grid-pad">
+            <div class="layui-field-box">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal">添加公告</button>
+                    </tr>
+                    <tr>
+                        <th>公告标题</th>
+                        <th>公告内容</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <script id="test" type="text/html">
+                        {{ each }}
+                        <tr>
+                            <td>
+                                {{ $value.headline }}
+                            </td>
+                            <td>
+                                {{ $value.content }}
+                            </td>
+                            <td>
+                                {{ $value.annTime }}
+                            </td>
+                            <td>
+                                <button class="layui-btn layui-btn-sm" type="button"
+                                        id="query" onclick="query('{{ $value.annID }}')">查看
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" type="button"
+                                        id="edit" onclick="editquery('{{ $value.annID }}')">编辑
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-danger" type="button"
+                                        id="del" onclick="del('{{ $value.annID }}')">删除
+                                </button>
+                            </td>
+                        </tr>
+                        {{ /each }}
+                    </script>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--信息窗口弹出-->
+<div id="query-annInfo" style="display: none"></div>
+<!--编辑窗口弹出-->
+<div id="edit-annInfo" style="display: none;"></div>
+
+<!-------------------------------显示信息模板----------------------------->
+<script type="text/html" id="annDataInfo">
+    <div style="height: 20px"></div>
+    <div style="text-align: center">
+        <div>{{ d.annInfoList.content }}</div>
+    </div>
+    <div style="height: 20px"></div>
+</script>
+<!----------------------信息显示end--------------------------->
+
+<!----------------------编辑信息显示------------------------------->
+<script type="text/html" id="editAnn">
+    <form id="up-form">
+        <div class="layui-form-item center" style="margin-top: 10px">
+            <label class="layui-form-label" style="width: 100px;">公告标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="headline" id="headline" required value="{{ d.annInfo.headline }}"
+                       style="width: 240px"
+                       lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">发布时间</label>
+                <div class="layui-input-inline" style="width: 240px">
+                    <input type="text" name="date2" id="date2" value="{{ d.annInfo.annTime }}"
+                           lay-verify="date"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label" style="width: 100px;">公告内容</label>
+            <div class="layui-input-block">
+                <textarea placeholder="" id="content" style="width: 240px" class="layui-textarea">{{ d.annInfo.content }}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" id="editCourse" class="layui-btn" lay-submit lay-filter="updateAnn">提交修改
+                </button>
+                <!--<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn">重置</button>-->
+            </div>
+        </div>
+    </form>
+</script>
+<!----------------------编辑信息显示end------------------------------->
+</body>
+</html>

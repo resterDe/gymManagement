@@ -18,6 +18,10 @@ public class Forward {
     private String forwardTime;
     //查询预约课程信息
     private List<Course> courseList;
+    //对应会员信息
+    private User userInfo;
+    //对应教程信息
+    private Course courseInfo;
 
     public int getForwardID() {
         return forwardID;
@@ -59,6 +63,22 @@ public class Forward {
         this.courseList = courseList;
     }
 
+    public User getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(User userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public Course getCourseInfo() {
+        return courseInfo;
+    }
+
+    public void setCourseInfo(Course courseInfo) {
+        this.courseInfo = courseInfo;
+    }
+
     @Override
     public String toString() {
         return "Forward{" +
@@ -67,6 +87,8 @@ public class Forward {
                 ", userID=" + userID +
                 ", forwardTime='" + forwardTime + '\'' +
                 ", courseList=" + courseList +
+                ", userInfo=" + userInfo +
+                ", courseInfo=" + courseInfo +
                 '}';
     }
 }

@@ -33,6 +33,7 @@ public class User {
     //用于记录会员卡信息
     private Card cards;
 
+
     public int getUserID() {
         return userID;
     }

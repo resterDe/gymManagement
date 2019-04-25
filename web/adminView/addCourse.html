@@ -2,15 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新增会员</title>
+    <title>添加新教程</title>
     <!--layui CSS-->
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <!--jquery-->
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--layui js-->
+    <script src="../static/layui/layui.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="../static/template/art-template.js"></script>
 </head>
 <body class="layui-layout-body">
-<!--新增会员js-->
-<script src="../static/js/userInfoAjax.js"></script>
+<script>
+    //预加载教练信息，查询所有教练
+    $(document).ready(function () {
+        layui.use(['element', 'form', 'layedit', 'laydate'], function () {
+            var form = layui.form,
+                element = layui.element;
+            $.ajax({
+                url: "/staff/getStaffBypos",
+                type: "GET",
+                data: {
+                    "position": "教练"
+                },
+                success(data) {
+                    console.log(data);
+                    $("#staffID")[0].innerHTML = template('test', data);
+
+                    element.render();
+                    form.render();
+                },
+                error() {
+                    console.log("网络出错");
+                }
+            });
+        });
+    });
+    //新增教程请求
+    function addCourse() {
+        $.ajax({
+            url: "/course/addCourse",
+            type: "POST",
+            data:{
+                "courseName":$("#courseName").val(),
+                "site":$("#site").val(),
+                "startTime":$("#date1").val(),
+                "endTime":$("#date2").val(),
+                "introduce":$("#introduce").val(),
+                "staffID":$("#sID").val(),
+                "maxNumber":$("#maxNumber").val()
+            },
+            success(data) {
+                console.log("添加"+data);
+                if (data==1){
+                    console.log("添加成功");
+                    location.href="courseList.html";
+                }else {
+                    console.log("添加失败");
+                    location.href="courseList.html";
+                }
+            },
+            error() {
+                console.log("网络出错");
+            }
+        })
+    }
+</script>
+<!--新增教程-->
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">JXZ 后台管理</div>
@@ -45,20 +103,20 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;">会员管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="userInfoList.html">会员信息</a></dd>
-                        <dd class="layui-this"><a href="addUser.html">新增会员</a></dd>
+                        <dd><a href="addUser.html">新增会员</a></dd>
                         <!--<dd><a href="queryUserCard.html">会员卡查询</a></dd>-->
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">教程管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="courseList.html">已开设教程</a></dd>
                         <!--<dd><a href="javascript:;">已过期课程</a></dd>-->
-                        <dd><a href="addCourse.html">添加新教程</a></dd>
+                        <dd class="layui-this"><a href="addCourse.html">添加新教程</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -73,78 +131,56 @@
         </div>
     </div>
     <div class="layui-body">
-        <div style="padding: 15px;" >
+        <div style="padding: 15px;">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>新增会员</legend>
+                <legend>新增教程</legend>
             </fieldset>
 
             <blockquote class="layui-elem-quote layui-quote-nm">
-                新增会员需注意：
+                添加教程需注意：
                 <br>——管理员小泽
             </blockquote>
-            <!--增加框 start-->
+            <!-------------------增加框 start----------------------->
             <div style="margin:0 auto;width: 550px;">
                 <div id="add-main" class="layui-form">
                     <!--内容主体-->
                     <form id="add-form">
                         <div class="layui-form-item center" style="margin-top: 10px">
-                            <label class="layui-form-label" style="width: 100px;">会员姓名</label>
+                            <label class="layui-form-label" style="width: 100px;">教程名称</label>
                             <div class="layui-input-block">
-                                <input type="text" name="userName" id="userName" required value="" style="width: 240px"
+                                <input type="text" name="courseName" id="courseName" required value=""
+                                       style="width: 240px"
                                        lay-verify="required"
-                                       placeholder="请输入会员姓名"
+                                       placeholder="请输入教程名称"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员账号</label>
+                            <label class="layui-form-label" style="width: 100px">选择教练</label>
+                            <div class="layui-input-inline" id="staffID" style="width: 240px">
+                                <script id="test" type="text/html">
+                                    <select name="staffID" id="sID" style="width: 240px;" lay-filter="aihao">
+                                        {{ each }}
+                                        <option value="{{ $value.staffID }}">{{ $value.staffName}} 教练</option>
+                                        {{ /each }}
+                                    </select>
+
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 100px">训练地址</label>
                             <div class="layui-input-block">
-                                <input type="number" name="userAccount" id="userAccount" required style="width: 240px"
+                                <input type="text" name="site" id="site" required style="width: 240px"
                                        lay-verify="required"
-                                       placeholder="请输入会员账号(输入前缀)"
+                                       placeholder="请输入训练房间"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员密码</label>
-                            <div class="layui-input-inline" style="width: 240px">
-                                <input type="password" name="userPassword" id="userPassword" lay-verify="pass"
-                                       placeholder="请输入密码"
-                                       autocomplete="off" class="layui-input">
-                            </div>
-                            <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">身份证</label>
-                            <div class="layui-input-inline" style="width: 240px">
-                                <input type="text" name="identityCard" id="identityCard" lay-verify="identity"
-                                       placeholder="" autocomplete="off"
-                                       class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">验证手机</label>
-                                <div class="layui-input-inline" style="width: 240px">
-                                    <input type="tel" name="phone" id="phone" lay-verify="required|phone"
-                                           autocomplete="off"
-                                           class="layui-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">验证邮箱</label>
-                                <div class="layui-input-inline" style="width: 240px">
-                                    <input type="text" name="email" id="email" lay-verify="email" autocomplete="off"
-                                           class="layui-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">注册时间</label>
+                                <label class="layui-form-label" style="width: 100px">开始时间</label>
                                 <div class="layui-input-inline" style="width: 240px">
                                     <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
                                            autocomplete="off" class="layui-input">
@@ -153,7 +189,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">到期时间</label>
+                                <label class="layui-form-label" style="width: 100px">结束时间</label>
                                 <div class="layui-input-inline" style="width: 240px">
                                     <input type="text" name="date1" id="date1" lay-verify="date"
                                            placeholder="yyyy-MM-dd"
@@ -162,40 +198,33 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员级别</label>
-                            <div class="layui-input-inline" style="width: 240px">
-                                <select name="rankName" id="rankName" style="width: 240px;" lay-filter="aihao">
-                                    <option value=""></option>
-                                    <option value="铜牌会员">铜牌会员</option>
-                                    <option value="银牌会员">银牌会员</option>
-                                    <option value="金牌会员">金牌会员</option>
-                                </select>
+                            <label class="layui-form-label" style="width: 100px">预约上限</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="maxNumber" id="maxNumber" required style="width: 240px"
+                                       lay-verify="required"
+                                       placeholder="0"
+                                       autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">性别</label>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label" style="width: 100px;">教程介绍</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="gender" value="男" title="男" checked="">
-                                <input type="radio" name="gender" value="女" title="女">
+                                <textarea placeholder="" id="introduce" style="width: 240px"
+                                          class="layui-textarea"></textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="button" class="layui-btn" lay-submit lay-filter="save">立即提交</button>
+                                <button type="button" class="layui-btn" lay-submit lay-filter="add">立即提交</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            <!---------------------end---------------------------------->
         </div>
     </div>
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        金小泽后台管理系统---广东技术师范学院天河学院
-    </div>
 </div>
-<script src="../static/layui/layui.js"></script>
 <script>
     //JavaScript代码区
     layui.use(['element', 'form', 'layedit', 'laydate'], function () {
@@ -207,7 +236,7 @@
         var element = layui.element;
 
         //问好
-        layer.msg("新增会员");
+        layer.msg("新增教程");
         //日期
         laydate.render({
             elem: '#date'
@@ -215,25 +244,11 @@
         laydate.render({
             elem: '#date1'
         });
-
-        //自定义验证规则
-        form.verify({
-            title: function (value) {
-                if (value.length < 5) {
-                    return '标题至少得5个字符啊';
-                }
-            },
-            pass: [
-                /^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
-            ],
-            content: function (value) {
-                layedit.sync(editIndex);
-            }
-        });
         //监听提交
-        form.on('submit(save)', function (data) {
+        form.on('submit(add)', function (data) {
             //监听添加按钮
-            addUser();
+            layer.msg("添加中...");
+            addCourse();
             return false;
         })
 

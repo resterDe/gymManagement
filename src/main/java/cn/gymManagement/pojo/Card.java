@@ -14,6 +14,9 @@ public class Card {
     private String rankName;
     //会员卡有效期(如：一个月 三个月 半年 一年等)
     private String validTime;
+    //存放会员信息
+    private User users;
+
 
     public int getCardID() {
         return cardID;
@@ -47,6 +50,15 @@ public class Card {
         this.validTime = validTime;
     }
 
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+    }
+
+
     @Override
     public String toString() {
         return "Card{" +
@@ -54,6 +66,7 @@ public class Card {
                 ", userID=" + userID +
                 ", rankName='" + rankName + '\'' +
                 ", validTime='" + validTime + '\'' +
+                ", users=" + users +
                 '}';
     }
 }

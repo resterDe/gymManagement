@@ -17,15 +17,15 @@ public class AdminController {
     /**
      * 员工（管理员）登录
      *
-     * @param seriaNumber 员工编号
+     * @param serialNumber 员工编号
      * @param newPassword 登录密码 （后期可修改，初始密码为身份证号码后六位）
      * @return
      */
     @RequestMapping(value = "adminLogin", method = RequestMethod.POST)
     @ResponseBody
-    public int adminLogin(HttpSession session, int seriaNumber, String newPassword) {
+    public int adminLogin(HttpSession session, int serialNumber, String newPassword) {
         //执行登录
-        Staff adminStaff = adminService.adminLogin(seriaNumber, newPassword);
+        Staff adminStaff = adminService.adminLogin(serialNumber, newPassword);
         System.out.println("管理员信息：" + adminStaff);
 
         //判断是否存在该用户,拦截器拦截已存在管理员session信息判断是否登录过

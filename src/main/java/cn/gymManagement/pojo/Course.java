@@ -25,7 +25,7 @@ public class Course {
     //已预约人数
     private int reservationNumber;
     //课程绑定教练信息
-    private List<Staff> staffList;
+    private Staff staffs;
 
     public int getCourseID() {
         return courseID;
@@ -91,12 +91,12 @@ public class Course {
         this.reservationNumber = reservationNumber;
     }
 
-    public List<Staff> getStaffList() {
-        return staffList;
+    public Staff getStaffs() {
+        return staffs;
     }
 
-    public void setStaffList(List<Staff> staffList) {
-        this.staffList = staffList;
+    public void setStaffs(Staff staffs) {
+        this.staffs = staffs;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class Course {
                 ", introduce='" + introduce + '\'' +
                 ", maxNumber=" + maxNumber +
                 ", reservationNumber=" + reservationNumber +
-                ", staffList=" + staffList +
+                ", staffs=" + staffs +
                 '}';
     }
 }

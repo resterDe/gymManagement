@@ -1,5 +1,6 @@
 package cn.gymManagement.controller;
 
+import cn.gymManagement.pojo.Card;
 import cn.gymManagement.pojo.User;
 import cn.gymManagement.service.CardService;
 import cn.gymManagement.service.UserService;
@@ -105,8 +106,9 @@ public class UserController {
     }
 
     /**
-     * 获取会员列表
-     *
+     * 获取会员全部信息
+     * @param page
+     * @param limit
      * @return
      */
     @RequestMapping(value = "getUserList", method = RequestMethod.GET, produces = {"text/html;charset=UTF-8;", "application/js"})

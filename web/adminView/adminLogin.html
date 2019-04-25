@@ -20,20 +20,22 @@
                 url: "/admin/adminLogin",
                 type: "POST",
                 data: {
-                    "seriaNumber": $("#seriaNumber").val(),
+                    "serialNumber": $("#serialNumber").val(),
                     "newPassword": $("#newPassword").val()
                 },
                 success(data) {
                     if (data == 0) {
-                        console.log("登入失败，请检查登陆身份");
+                        alert("登入失败，请检查登陆身份");
+                        window.location.reload();
                     } else {
                         //进入主页面
-                        console.log("登入成功,请妥善管理");
+                        alert("登入成功,请妥善管理");
                         location.href = "main.html";
                     }
                 },
                 error() {
-                    console.log("登入失败，请检查网络设置");
+                    alert("登入失败，请检查网络设置");
+                    window.location.reload();
                 }
             })
         });
@@ -54,7 +56,7 @@
                 <div class="layui-form-item layui-form-pane">
                     <label class="layui-form-label layui-icon la">&#xe66f;</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="seriaNumber" id="seriaNumber" lay-verify="required" placeholder="请输入账号"
+                        <input type="text" name="serialNumber" id="serialNumber" lay-verify="required" placeholder="请输入账号"
                                class="layui-input">
                     </div>
                 </div>

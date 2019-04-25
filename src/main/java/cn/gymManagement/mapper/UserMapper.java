@@ -120,6 +120,7 @@ public interface UserMapper {
     })
     User getUserInfoById(@Param("userID")int userID);
 
+
     /**
      * 修改会员相关信息
      * @param userName
@@ -142,6 +143,11 @@ public interface UserMapper {
                        @Param("phone")String phone,@Param("email")String email,
                        @Param("activateCode")int activateCode,@Param("expireTime")String expireTime,@Param("userID")int userID);
 
-
-
+    /**
+     * 根据会员id查询会员信息
+     * @param userID
+     * @return
+     */
+    @Select("select * from t_user where userID=#{userID}")
+    User getUsersById(@Param("userID")int userID);
 }

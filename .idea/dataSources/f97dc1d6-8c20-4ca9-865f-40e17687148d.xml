@@ -1177,7 +1177,6 @@
       <Position>6</Position>
       <Comment>修改后的密码</Comment>
       <DataType>varchar(50)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="285" parent="253" name="address">
@@ -1208,7 +1207,7 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="253" name="seriaNumber">
+    <column id="289" parent="253" name="serialNumber">
       <Position>11</Position>
       <Comment>员工编号（登记年份+随机三位数）</Comment>
       <DataType>int(11)|0s</DataType>

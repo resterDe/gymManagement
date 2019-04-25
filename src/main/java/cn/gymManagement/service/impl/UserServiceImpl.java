@@ -148,4 +148,14 @@ public class UserServiceImpl implements UserService {
     public int getKeyUserNumber(String keyword) {
         return userMapper.getKeyUserNumber(keyword);
     }
+
+    /**
+     * 根据会员ID 查询会员信息
+     * @param userID
+     * @return
+     */
+    @Override
+    public User getUsersById(int userID) {
+        return userMapper.getUsersById(userID);
+    }
 }

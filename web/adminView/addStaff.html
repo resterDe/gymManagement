@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新增会员</title>
+    <title>添加员工</title>
     <!--layui CSS-->
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <!--jquery-->
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--引入art-template模板引擎-->
+    <script src="../static/template/art-template.js"></script>
+    <!--引入layui.js-->
+    <script src="../static/layui/layui.js"></script>
+    <!--userInfo ajax js-->
+    <script src="../static/js/staffInfoAjax.js"></script>
 </head>
 <body class="layui-layout-body">
-<!--新增会员js-->
-<script src="../static/js/userInfoAjax.js"></script>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">JXZ 后台管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <!-- <li class="layui-nav-item"><a href="">系统设置</a></li> -->
-            <!-- <li class="layui-nav-item"><a href="">商品管理</a></li> -->
             <li class="layui-nav-item"><a href="main.html"><i class="layui-icon layui-icon-refresh"></i>&nbsp;回到首页</a>
             </li>
             <li class="layui-nav-item">
@@ -45,11 +47,11 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;">会员管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="userInfoList.html">会员信息</a></dd>
-                        <dd class="layui-this"><a href="addUser.html">新增会员</a></dd>
+                        <dd><a href="addUser.html">新增会员</a></dd>
                         <!--<dd><a href="queryUserCard.html">会员卡查询</a></dd>-->
                     </dl>
                 </li>
@@ -61,11 +63,11 @@
                         <dd><a href="addCourse.html">添加新教程</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item  layui-nav-itemed">
                     <a href="javascript:;">员工管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="staffInfoList.html">在职员工</a></dd>
-                        <dd><a href="addStaff.html">添加员工</a></dd>
+                        <dd class="layui-this"><a href="javascript:;">添加员工</a></dd>
                         <!--<dd><a href="javascript:;">薪资管理（待定）</a></dd>-->
                     </dl>
                 </li>
@@ -73,14 +75,14 @@
         </div>
     </div>
     <div class="layui-body">
-        <div style="padding: 15px;" >
+        <div style="padding: 15px;">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>新增会员</legend>
+                <legend>新增员工</legend>
             </fieldset>
 
             <blockquote class="layui-elem-quote layui-quote-nm">
-                新增会员需注意：
+                新增员工需注意：
                 <br>——管理员小泽
             </blockquote>
             <!--增加框 start-->
@@ -89,43 +91,45 @@
                     <!--内容主体-->
                     <form id="add-form">
                         <div class="layui-form-item center" style="margin-top: 10px">
-                            <label class="layui-form-label" style="width: 100px;">会员姓名</label>
+                            <label class="layui-form-label" style="width: 100px;">员工姓名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="userName" id="userName" required value="" style="width: 240px"
+                                <input type="text" name="staff_Name" id="staff_Name" required value=""
+                                       style="width: 240px"
                                        lay-verify="required"
-                                       placeholder="请输入会员姓名"
+                                       placeholder="请输入员工姓名"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员账号</label>
+                            <label class="layui-form-label" style="width: 100px">员工编号</label>
                             <div class="layui-input-block">
-                                <input type="number" name="userAccount" id="userAccount" required style="width: 240px"
+                                <input type="number" name="serialNumber" id="serialNumber" required style="width: 240px"
                                        lay-verify="required"
-                                       placeholder="请输入会员账号(输入前缀)"
+                                       placeholder="请输入员工账号(输入前缀)"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员密码</label>
-                            <div class="layui-input-inline" style="width: 240px">
-                                <input type="password" name="userPassword" id="userPassword" lay-verify="pass"
-                                       placeholder="请输入密码"
+                            <label class="layui-form-label" style="width: 100px">员工月薪</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="staffSalary" id="staffSalary" required style="width: 240px"
+                                       lay-verify="required"
+                                       placeholder="请输入员工合理月薪(整数)"
                                        autocomplete="off" class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label" style="width: 100px">身份证</label>
                             <div class="layui-input-inline" style="width: 240px">
                                 <input type="text" name="identityCard" id="identityCard" lay-verify="identity"
-                                       placeholder="" autocomplete="off"
+                                       placeholder=""
+                                       autocomplete="off"
                                        class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">验证手机</label>
+                                <label class="layui-form-label" style="width: 100px">联系方式</label>
                                 <div class="layui-input-inline" style="width: 240px">
                                     <input type="tel" name="phone" id="phone" lay-verify="required|phone"
                                            autocomplete="off"
@@ -133,42 +137,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="layui-form-item center" style="margin-top: 10px">
+                            <label class="layui-form-label" style="width: 100px;">员工住址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="staffAddress" id="staffAddress" required value=""
+                                       style="width: 240px"
+                                       lay-verify="required"
+                                       placeholder="请输入员工地址"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
                         <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">验证邮箱</label>
-                                <div class="layui-input-inline" style="width: 240px">
-                                    <input type="text" name="email" id="email" lay-verify="email" autocomplete="off"
-                                           class="layui-input">
-                                </div>
+                            <label class="layui-form-label" style="width: 100px">年龄</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="age" id="age" required style="width: 240px"
+                                       lay-verify="required"
+                                       placeholder="请输入合法年龄"
+                                       autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">注册时间</label>
-                                <div class="layui-input-inline" style="width: 240px">
-                                    <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
-                                           autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 100px">到期时间</label>
-                                <div class="layui-input-inline" style="width: 240px">
-                                    <input type="text" name="date1" id="date1" lay-verify="date"
-                                           placeholder="yyyy-MM-dd"
-                                           autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label" style="width: 100px">会员级别</label>
+                            <label class="layui-form-label" style="width: 100px">职称</label>
                             <div class="layui-input-inline" style="width: 240px">
-                                <select name="rankName" id="rankName" style="width: 240px;" lay-filter="aihao">
-                                    <option value=""></option>
-                                    <option value="铜牌会员">铜牌会员</option>
-                                    <option value="银牌会员">银牌会员</option>
-                                    <option value="金牌会员">金牌会员</option>
+                                <select name="staffPosition" id="staffPosition" style="width: 240px;"
+                                        lay-filter="aihao">
+                                    <option value="教练">教练</option>
+                                    <option value="经理">经理</option>
+                                    <option value="管理员">管理员</option>
+                                    <option value="普通员工">普通员工</option>
                                 </select>
                             </div>
                         </div>
@@ -179,9 +176,26 @@
                                 <input type="radio" name="gender" value="女" title="女">
                             </div>
                         </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label" style="width: 100px;">员工介绍</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="请输入员工描述:" id="staffIntroduce" style="width: 240px"
+                                          class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label" style="width: 100px">入职时间</label>
+                                <div class="layui-input-inline" style="width: 240px">
+                                    <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button type="button" class="layui-btn" lay-submit lay-filter="save">立即提交</button>
+                                <!--<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn">重置</button>-->
                             </div>
                         </div>
                     </form>
@@ -189,13 +203,11 @@
             </div>
         </div>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         金小泽后台管理系统---广东技术师范学院天河学院
     </div>
 </div>
-<script src="../static/layui/layui.js"></script>
 <script>
     //JavaScript代码区
     layui.use(['element', 'form', 'layedit', 'laydate'], function () {
@@ -207,7 +219,7 @@
         var element = layui.element;
 
         //问好
-        layer.msg("新增会员");
+        layer.msg("新增员工");
         //日期
         laydate.render({
             elem: '#date'
@@ -233,7 +245,7 @@
         //监听提交
         form.on('submit(save)', function (data) {
             //监听添加按钮
-            addUser();
+            addStaff();
             return false;
         })
 
