@@ -13,12 +13,18 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class VerificationController {
-    @RequestMapping(value = "/getVerification",method = RequestMethod.GET)
+
+    /**
+     * 获取/刷新验证码
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/getVerification", method = RequestMethod.GET)
     @ResponseBody
-    public String getVerification(HttpSession session){
+    public String getVerification(HttpSession session) {
         //获取长度为4的随机验证码返回
-        String code=VerificationCodeUtil.getRandomString(4);
-        session.setAttribute("code",code);
+        String code = VerificationCodeUtil.getRandomString(4);
+        session.setAttribute("code", code);
         return code;
     }
 }

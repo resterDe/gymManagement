@@ -13,6 +13,8 @@
     <script src="../static/layui/layui.js"></script>
     <!--userInfo ajax js-->
     <script src="../static/js/staffInfoAjax.js"></script>
+    <!--js-->
+    <script src="../static/js/addStaff.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -26,7 +28,7 @@
                 <a href="javascript:;">系统维护</a>
                 <dl class="layui-nav-child">
                     <dd><a href="forwardList.html">预约信息</a></dd>
-                    <dd><a href="">公告管理</a></dd>
+                    <dd><a href="annList.html">公告管理</a></dd>
                 </dl>
             </li>
         </ul>
@@ -208,48 +210,6 @@
         金小泽后台管理系统---广东技术师范学院天河学院
     </div>
 </div>
-<script>
-    //JavaScript代码区
-    layui.use(['element', 'form', 'layedit', 'laydate'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            layedit = layui.layedit,
-            laydate = layui.laydate;
 
-        var element = layui.element;
-
-        //问好
-        layer.msg("新增员工");
-        //日期
-        laydate.render({
-            elem: '#date'
-        });
-        laydate.render({
-            elem: '#date1'
-        });
-
-        //自定义验证规则
-        form.verify({
-            title: function (value) {
-                if (value.length < 5) {
-                    return '标题至少得5个字符啊';
-                }
-            },
-            pass: [
-                /^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
-            ],
-            content: function (value) {
-                layedit.sync(editIndex);
-            }
-        });
-        //监听提交
-        form.on('submit(save)', function (data) {
-            //监听添加按钮
-            addStaff();
-            return false;
-        })
-
-    });
-</script>
 </body>
 </html>

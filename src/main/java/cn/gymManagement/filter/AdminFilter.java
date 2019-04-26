@@ -36,15 +36,15 @@ public class AdminFilter implements Filter {
             if (session == null || session.getAttribute("adminSession") == null) {
                 //跳回登录界面
                 response.sendRedirect("/adminView/adminLogin.html");
-                System.out.println ("---拦截非登录界面---跳回管理员登录界面");
+                System.out.println("---拦截非登录界面---跳回管理员登录界面");
                 return;
             } else {
                 chain.doFilter(request, response);
-                System.out.println ("---存在该用户，通过拦截---");
+                System.out.println("---存在该用户，通过拦截---");
                 return;
             }
         } else {
-            chain.doFilter(request,response);
+            chain.doFilter(request, response);
             System.out.println("---通过拦截，属于登录界面或者主页（非登录主页）---");
         }
     }

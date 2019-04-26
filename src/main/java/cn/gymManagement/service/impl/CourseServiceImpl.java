@@ -15,6 +15,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 查询全部课程信息
+     *
      * @return
      */
     @Override
@@ -24,6 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据id查询预约限制人数以及当前预约人数
+     *
      * @param courseID
      * @return
      */
@@ -34,6 +36,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 调整预约课程已预约人数
+     *
      * @param reservationNumber
      * @param courseID
      * @return
@@ -45,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据教程id查询教程信息
+     *
      * @param courseID
      * @return
      */
@@ -55,6 +59,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 删除教程
+     *
      * @param courseID
      * @return
      */
@@ -65,11 +70,12 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 修改教程信息
+     *
      * @param courseName 教程名称
      * @param courseTime 教程持续时间
-     * @param site 教程地点
-     * @param introduce 教程简介
-     * @param courseID 教程唯一标识
+     * @param site       教程地点
+     * @param introduce  教程简介
+     * @param courseID   教程唯一标识
      * @return
      */
     @Override
@@ -79,6 +85,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 新增教程信息绑定教练信息
+     *
      * @param courseName
      * @param courseTime
      * @param staffID

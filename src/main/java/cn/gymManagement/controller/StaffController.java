@@ -113,6 +113,7 @@ public class StaffController {
 
     /**
      * 修改员工信息
+     *
      * @return
      */
     @RequestMapping(value = "updateStaffInfo", method = RequestMethod.PUT)
@@ -133,6 +134,7 @@ public class StaffController {
 
     /**
      * 0 添加成功 1 添加失败，服务器问题 2 添加失败，已存在该员工
+     *
      * @param staffs
      * @return
      */
@@ -144,49 +146,49 @@ public class StaffController {
         if (staffSer == null) {
             //开始新增
             //获取随机三位数，合成会员信息
-            System.out.println("获取到的员工基本信息："+staffs);
+            System.out.println("获取到的员工基本信息：" + staffs);
             //定义员工编号
-            int serialNumber = Integer.parseInt(staffs.getSerialNumber()+ NumberUtil.getNumber());
-            System.out.println("合成的员工编号："+serialNumber);
+            int serialNumber = Integer.parseInt(staffs.getSerialNumber() + NumberUtil.getNumber());
+            System.out.println("合成的员工编号：" + serialNumber);
 
             //定义员工级别权限,默认为普通权限
-            int jurisdiction=3;
+            int jurisdiction = 3;
             //获取职称确定员工权限
-            if (staffs.getPosition().equals("经理")){
-                jurisdiction=0;
-                System.out.println("经理的权限是："+jurisdiction);
+            if (staffs.getPosition().equals("经理")) {
+                jurisdiction = 0;
+                System.out.println("经理的权限是：" + jurisdiction);
             }
-            if (staffs.getPosition().equals("管理员")){
-                jurisdiction=1;
-                System.out.println("管理员的权限是："+jurisdiction);
+            if (staffs.getPosition().equals("管理员")) {
+                jurisdiction = 1;
+                System.out.println("管理员的权限是：" + jurisdiction);
             }
-            if (staffs.getPosition().equals("教练")){
-                jurisdiction=2;
-                System.out.println("教练的权限是："+jurisdiction);
+            if (staffs.getPosition().equals("教练")) {
+                jurisdiction = 2;
+                System.out.println("教练的权限是：" + jurisdiction);
             }
-            if (staffs.getPosition().equals("普通员工")){
-                jurisdiction=3;
-                System.out.println("普通员工的权限是："+jurisdiction);
+            if (staffs.getPosition().equals("普通员工")) {
+                jurisdiction = 3;
+                System.out.println("普通员工的权限是：" + jurisdiction);
             }
             //--------------获取身份证号，设置默认密码----------------------
-            String IC=staffs.getIdentityCard();
-            String newPassword=IC.substring(IC.length()-6);//取出最后六位
+            String IC = staffs.getIdentityCard();
+            String newPassword = IC.substring(IC.length() - 6);//取出最后六位
 
             //开始执行添加操作
-            int row=staffService.insertStaff(staffs.getStaffName(),staffs.getAge(),staffs.getGender(),
-                    staffs.getIdentityCard(),newPassword,staffs.getAddress(),staffs.getPhone(),
-                    staffs.getPosition(),jurisdiction,serialNumber,staffs.getSalary(),
-                    staffs.getIntroduce(),staffs.getStaffTime());
+            int row = staffService.insertStaff(staffs.getStaffName(), staffs.getAge(), staffs.getGender(),
+                    staffs.getIdentityCard(), newPassword, staffs.getAddress(), staffs.getPhone(),
+                    staffs.getPosition(), jurisdiction, serialNumber, staffs.getSalary(),
+                    staffs.getIntroduce(), staffs.getStaffTime());
 
             //判断添加是否成功
-            if (row==1){
+            if (row == 1) {
                 System.out.println("添加成功");
                 return 0;
-            }else {
+            } else {
                 System.out.println("添加失败");
                 return 1;
             }
-        }else {
+        } else {
             System.out.println("已存在该员工");
             return 2;
         }

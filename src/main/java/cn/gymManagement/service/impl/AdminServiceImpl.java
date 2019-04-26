@@ -14,8 +14,9 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 员工（管理员）登录
+     *
      * @param serialNumber 员工编号
-     * @param newPassword 密码（初始密码为身份证号码后六位，后期可修改）
+     * @param newPassword  密码（初始密码为身份证号码后六位，后期可修改）
      * @return
      */
     @Override
@@ -25,7 +26,8 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 修改管理员密码
-     * @param staffID 管理员id
+     *
+     * @param staffID     管理员id
      * @param newPassword 新密码
      * @return
      */

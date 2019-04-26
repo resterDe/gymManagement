@@ -47,12 +47,12 @@ public class ForwardController {
             //判断当前预约人数是否已达上限
             Course courses = courseService.getCourseNumber(courseID);
             //获取预约信息中的课程唯一标识
-            List<Forward> forwardList=forwardService.selectUserCourse(userID);
+            List<Forward> forwardList = forwardService.selectUserCourse(userID);
             //判断是否已经预约当前课程
-            for (Forward f:forwardList){
-                if (f.getCourseID()==courseID){
+            for (Forward f : forwardList) {
+                if (f.getCourseID() == courseID) {
                     //如果已经预约，则跳出方法
-                    System.out.println("已经存在课程："+courseID);
+                    System.out.println("已经存在课程：" + courseID);
                     return 4;
                 }
             }
@@ -86,53 +86,57 @@ public class ForwardController {
 
     /**
      * 查询个人预约列表
+     *
      * @param session
      * @return
      */
-    @RequestMapping(value = "getUserForward",method = RequestMethod.GET)
+    @RequestMapping(value = "getUserForward", method = RequestMethod.GET)
     @ResponseBody
-    public List<Forward> getUserForward(HttpSession session){
-        int userID=((User)session.getAttribute("userSession")).getUserID();
+    public List<Forward> getUserForward(HttpSession session) {
+        int userID = ((User) session.getAttribute("userSession")).getUserID();
         return forwardService.getUserForward(userID);
     }
 
     /**
      * 根据教程id删除相应教程
      * 0 表示成功删除  1 表示删除失败
+     *
      * @param forwardID
      * @return
      */
-    @RequestMapping(value = "delUserForward",method = RequestMethod.DELETE)
+    @RequestMapping(value = "delUserForward", method = RequestMethod.DELETE)
     @ResponseBody
-    public int delUserForward(int forwardID){
-        int row=forwardService.delUserForward(forwardID);
-        if (row==1){
-            System.out.println("删除成功："+row);
+    public int delUserForward(int forwardID) {
+        int row = forwardService.delUserForward(forwardID);
+        if (row == 1) {
+            System.out.println("删除成功：" + row);
             return 0;
-        }else {
-            System.out.println("删除失败："+row);
+        } else {
+            System.out.println("删除失败：" + row);
             return 1;
         }
     }
 
     /**
      * 查询预约信息
+     *
      * @return
      */
-    @RequestMapping(value = "getForward",method = RequestMethod.GET)
+    @RequestMapping(value = "getForward", method = RequestMethod.GET)
     @ResponseBody
-    public List<Forward> getForward(){
+    public List<Forward> getForward() {
         return forwardService.getForward();
     }
 
     /**
      * 根据id获取预约详细信息
+     *
      * @param forwardID
      * @return
      */
-    @RequestMapping(value = "getForwardById",method = RequestMethod.GET)
+    @RequestMapping(value = "getForwardById", method = RequestMethod.GET)
     @ResponseBody
-    public Forward getForwardById(int forwardID){
+    public Forward getForwardById(int forwardID) {
         return forwardService.getForwardById(forwardID);
     }
 }

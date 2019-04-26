@@ -23,35 +23,39 @@ public interface CardMapper {
     int addUserCard(@Param("userID") int userID, @Param("rankName") String rankName, @Param("validTime") String validTime);
 
     @Select("select * from t_card where userID=#{userID}")
-    Card getCardById(@Param("userID")int userID);
+    Card getCardById(@Param("userID") int userID);
 
     /**
      * 根据会员ID删除会员卡记录
+     *
      * @param userID
      * @return
      */
     @Delete("delete from t_card where userID=#{userID}")
-    int delCardByUserId(@Param("userID")int userID);
+    int delCardByUserId(@Param("userID") int userID);
 
     /**
      * 根据会员ID修改会员相关会员卡信息
+     *
      * @param rankName
      * @param validTime
      * @return
      */
     @Update("update t_card set rankName=#{rankName},validTime=#{validTime} where userID=#{userID}")
-    int updateCardByUserId(@Param("rankName")String rankName,@Param("validTime")String validTime,@Param("userID")int userID);
+    int updateCardByUserId(@Param("rankName") String rankName, @Param("validTime") String validTime, @Param("userID") int userID);
 
     /**
      * 根据会员类型查询总数
+     *
      * @param rankName
      * @return
      */
     @Select("select count(*) from t_card where rankName=#{rankName}")
-    int getNumberByName(@Param("rankName")String rankName);
+    int getNumberByName(@Param("rankName") String rankName);
 
     /**
      * 根据会员卡类型查询会员信息
+     *
      * @param rankName
      * @return
      */
@@ -60,10 +64,11 @@ public interface CardMapper {
             @Result(id = true, column = "userID", property = "userID"),
             @Result(column = "userID", property = "users", many = @Many(select = "cn.gymManagement.mapper.UserMapper.getUsersById"))
     })
-    List<Card> getUserCardByName(@Param("pages") int pages, @Param("limits") int limits,@Param("rankName")String rankName);
+    List<Card> getUserCardByName(@Param("pages") int pages, @Param("limits") int limits, @Param("rankName") String rankName);
 
     /**
      * 查询会员卡类型所有会员
+     *
      * @param pages
      * @param limits
      * @return
@@ -77,6 +82,7 @@ public interface CardMapper {
 
     /**
      * 查询会员卡总数
+     *
      * @return
      */
     @Select("select count(*) from t_card")

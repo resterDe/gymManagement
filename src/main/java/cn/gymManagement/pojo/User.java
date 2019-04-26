@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 会员信息
- * */
+ */
 @Component
 public class User {
     private int userID;

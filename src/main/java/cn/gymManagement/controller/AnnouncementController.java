@@ -51,9 +51,9 @@ public class AnnouncementController {
      */
     @RequestMapping(value = "updateAnnInfo", method = RequestMethod.PUT)
     @ResponseBody
-    public int updateAnnInfo(String headline, String content, String annTime,int annID) {
+    public int updateAnnInfo(String headline, String content, String annTime, int annID) {
         System.out.println(annTime);
-        int row = announcementService.updateAnnInfo(headline, content, annTime,annID);
+        int row = announcementService.updateAnnInfo(headline, content, annTime, annID);
         if (row == 1) {
             System.out.println("修改成功");
             return 0;
@@ -65,7 +65,8 @@ public class AnnouncementController {
 
     /**
      * 根据id删除公告
-     *  0表示修改成功 1表示修改失败
+     * 0表示修改成功 1表示修改失败
+     *
      * @param annID
      * @return
      */
@@ -78,6 +79,28 @@ public class AnnouncementController {
             return 0;
         } else {
             System.out.println("删除失败");
+            return 1;
+        }
+    }
+
+    /**
+     * 新增公告
+     *
+     * @param headline 标题
+     * @param content  内容
+     * @param annTime  发布时间
+     *                 0表示成功  1表示失败
+     * @return
+     */
+    @RequestMapping(value = "addAnn", method = RequestMethod.POST)
+    @ResponseBody
+    public int addAnn(String headline, String content, String annTime) {
+        int row = announcementService.insertAnn(headline, content, annTime);
+        if (row == 1) {
+            System.out.println("新增公告成功");
+            return 0;
+        } else {
+            System.out.println("新增公告失败");
             return 1;
         }
     }

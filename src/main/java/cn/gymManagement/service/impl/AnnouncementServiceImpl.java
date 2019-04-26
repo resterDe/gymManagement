@@ -58,4 +58,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public int delAnnInfo(int annID) {
         return announcementMapper.delAnnInfo(annID);
     }
+
+
+    /**
+     * 新增公告信息
+     *
+     * @param headline 标题
+     * @param content  内容
+     * @param annTime  发布时间
+     * @return
+     */
+    @Override
+    public int insertAnn(String headline, String content, String annTime) {
+        return announcementMapper.insertAnn(headline, content, annTime);
+    }
 }

@@ -68,6 +68,7 @@ public interface CourseMapper {
 
     /**
      * 删除教程
+     *
      * @param courseID
      * @return
      */
@@ -76,20 +77,22 @@ public interface CourseMapper {
 
     /**
      * 修改教程内容
+     *
      * @param courseName 教程名称
      * @param courseTime 教程持续时间
-     * @param site 教程开课地点
-     * @param introduce 教程简介
-     * @param courseID 教程唯一标识
+     * @param site       教程开课地点
+     * @param introduce  教程简介
+     * @param courseID   教程唯一标识
      * @return
      */
     @Update("update t_course set courseName=#{courseName},courseTime=#{courseTime},site=#{site}," +
             "introduce=#{introduce} where courseID=#{courseID}")
-    int updateCourseById(@Param("courseName")String courseName,@Param("courseTime")String courseTime,
-                         @Param("site")String site,@Param("introduce")String introduce,@Param("courseID")int courseID);
+    int updateCourseById(@Param("courseName") String courseName, @Param("courseTime") String courseTime,
+                         @Param("site") String site, @Param("introduce") String introduce, @Param("courseID") int courseID);
 
     /**
      * 新增教程信息绑定教练信息
+     *
      * @param courseName
      * @param courseTime
      * @param staffID
@@ -101,8 +104,8 @@ public interface CourseMapper {
      */
     @Insert("insert into t_course (courseName,courseTime,staffID,site,introduce,maxNumber,reservationNumber) " +
             "values(#{courseName},#{courseTime},#{staffID},#{site},#{introduce},#{maxNumber},#{reservationNumber})")
-    int insertCourse(@Param("courseName")String courseName,@Param("courseTime")String courseTime,
-                     @Param("staffID")int staffID,@Param("site")String site,@Param("introduce")String introduce,
-                     @Param("maxNumber")int maxNumber,@Param("reservationNumber")int reservationNumber);
+    int insertCourse(@Param("courseName") String courseName, @Param("courseTime") String courseTime,
+                     @Param("staffID") int staffID, @Param("site") String site, @Param("introduce") String introduce,
+                     @Param("maxNumber") int maxNumber, @Param("reservationNumber") int reservationNumber);
 
 }

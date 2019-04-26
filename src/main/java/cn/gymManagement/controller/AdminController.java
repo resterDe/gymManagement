@@ -14,11 +14,12 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
     /**
      * 员工（管理员）登录
      *
      * @param serialNumber 员工编号
-     * @param newPassword 登录密码 （后期可修改，初始密码为身份证号码后六位）
+     * @param newPassword  登录密码 （后期可修改，初始密码为身份证号码后六位）
      * @return
      */
     @RequestMapping(value = "adminLogin", method = RequestMethod.POST)
@@ -39,6 +40,7 @@ public class AdminController {
             return 1;
         }
     }
+
     /**
      * 检查管理员用户是否登录
      * 登录：1 未登录：0
@@ -57,6 +59,7 @@ public class AdminController {
             return 1;
         }
     }
+
     /**
      * 管理员安全退出登录
      * 0：表示管理员不存在，清除错误
@@ -83,32 +86,33 @@ public class AdminController {
 
     /**
      * 修改管理员密码
+     *
      * @param newPassword 新密码
      * @return 2：表示不存在管理员账户  1：表示修改成功   （非）!1表示修改失败
-   */
-    @RequestMapping(value = "updateAdminPassword",method = RequestMethod.PUT)
+     */
+    @RequestMapping(value = "updateAdminPassword", method = RequestMethod.PUT)
     @ResponseBody
-    public int updateAdminPassword(HttpSession session,String newPassword){
+    public int updateAdminPassword(HttpSession session, String newPassword) {
         //获取管理员session信息
-        Staff staffs= (Staff) session.getAttribute("adminSession");
+        Staff staffs = (Staff) session.getAttribute("adminSession");
         //判断是否存在该管理员
-        if (staffs==null){
+        if (staffs == null) {
             System.out.println("不存在该管理员，请登录再执行此操作");
             return 2;
-        }else {
+        } else {
             //获取管理员id
-            int staffID=staffs.getStaffID();
+            int staffID = staffs.getStaffID();
             //执行密码修改
-            System.out.println("需要修改的密码："+newPassword);
-            int row=adminService.updateAdminPwd(staffID,newPassword);
-            System.out.println("修改管理员密码返回值："+row);
-            if (row==1){
+            System.out.println("需要修改的密码：" + newPassword);
+            int row = adminService.updateAdminPwd(staffID, newPassword);
+            System.out.println("修改管理员密码返回值：" + row);
+            if (row == 1) {
                 System.out.println("修改成功后清除原有session信息");
                 //删除指定管理员登录信息
                 session.removeAttribute("adminSession");
                 //清除对应管理员session所有信息，安全退出注销
                 session.invalidate();
-            }else {
+            } else {
                 System.out.println("修改失败");
             }
             return row;
@@ -118,10 +122,10 @@ public class AdminController {
     /**
      * 获取管理员信息
      */
-    @RequestMapping(value = "getAdminInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "getAdminInfo", method = RequestMethod.GET)
     @ResponseBody
-    public Staff getAdminInfo(HttpSession session){
-        Staff staffs= (Staff) session.getAttribute("adminSession");
+    public Staff getAdminInfo(HttpSession session) {
+        Staff staffs = (Staff) session.getAttribute("adminSession");
         return staffs;
     }
 }

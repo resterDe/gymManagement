@@ -27,7 +27,7 @@ public class Staff {
     //级别权限(0：表示最高权限，1：表示普通管理员 2：教练)
     private int jurisdiction;
     //员工编号(入职年份+随机三位数)
-    private int  serialNumber;
+    private int serialNumber;
     //员工薪资
     private int salary;
     //员工介绍

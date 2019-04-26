@@ -15,6 +15,7 @@ public class ForwardServiceImpl implements ForwardService {
 
     /**
      * 新增预约
+     *
      * @param courseID
      * @param userID
      * @param forwardTime
@@ -27,6 +28,7 @@ public class ForwardServiceImpl implements ForwardService {
 
     /**
      * 查询会员预约课程信息
+     *
      * @param userID
      * @return
      */
@@ -38,6 +40,7 @@ public class ForwardServiceImpl implements ForwardService {
     /**
      * 1、查询会员是否已经预约过此课程
      * 2、查询会员已预约的课程
+     *
      * @param userID 会员唯一标识
      * @return
      */
@@ -48,6 +51,7 @@ public class ForwardServiceImpl implements ForwardService {
 
     /**
      * 根据教程id删除相应教程
+     *
      * @param forwardID
      * @return
      */
@@ -58,6 +62,7 @@ public class ForwardServiceImpl implements ForwardService {
 
     /**
      * 查询所有预约教程信息
+     *
      * @return
      */
     @Override
@@ -67,6 +72,7 @@ public class ForwardServiceImpl implements ForwardService {
 
     /**
      * 根据id查询单个预约详细信息
+     *
      * @param forwardID
      * @return
      */

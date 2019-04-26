@@ -1,10 +1,7 @@
 package cn.gymManagement.mapper;
 
 import cn.gymManagement.pojo.Announcement;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,27 +21,41 @@ public interface AnnouncementMapper {
 
     /**
      * 根据id查询所有公告信息
+     *
      * @param annID
      * @return
      */
     @Select("select * from t_announcement where annID=#{annID}")
-    Announcement getAnnInfo(@Param("annID")int annID);
+    Announcement getAnnInfo(@Param("annID") int annID);
 
     /**
      * 修改公告信息
+     *
      * @param headline 标题
-     * @param content 内容
-     * @param annTime 发布时间
+     * @param content  内容
+     * @param annTime  发布时间
      * @return
      */
     @Update("update t_announcement set headline=#{headline},content=#{content},annTime=#{annTime} where annID=#{annID}")
-    int updateAnnInfo(@Param("headline")String headline,@Param("content")String content,@Param("annTime")String annTime,@Param("annID")int annID);
+    int updateAnnInfo(@Param("headline") String headline, @Param("content") String content, @Param("annTime") String annTime, @Param("annID") int annID);
 
     /**
      * 根据id删除公告
+     *
      * @param annID
      * @return
      */
     @Delete("delete from t_announcement where annID=#{annID}")
-    int delAnnInfo(@Param("annID")int annID);
+    int delAnnInfo(@Param("annID") int annID);
+
+    /**
+     * 新增公告信息
+     *
+     * @param headline 标题
+     * @param content  内容
+     * @param annTime  发布时间
+     * @return
+     */
+    @Insert("insert into t_announcement(headline,content,annTime) values(#{headline},#{content},#{annTime})")
+    int insertAnn(@Param("headline") String headline, @Param("content") String content, @Param("annTime") String annTime);
 }

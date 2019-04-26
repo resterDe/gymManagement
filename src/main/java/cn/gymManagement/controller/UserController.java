@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
     /**
-     * 会员接口
+     * 会员接口,注册bean
      */
     @Autowired
     private UserService userService;
@@ -107,6 +107,7 @@ public class UserController {
 
     /**
      * 获取会员全部信息
+     *
      * @param page
      * @param limit
      * @return
@@ -128,22 +129,24 @@ public class UserController {
         obj.put("data", userList);
         return obj.toJSONString();
     }
+
     /**
      * 关键字获取会员信息
+     *
      * @param keyword 关键字包括：会员账户，会员姓名
      * @return
      */
-    @RequestMapping(value = "getUserListByKeyword",method = RequestMethod.GET,produces = {"text/html;charset=UTF-8;", "application/js"})
+    @RequestMapping(value = "getUserListByKeyword", method = RequestMethod.GET, produces = {"text/html;charset=UTF-8;", "application/js"})
     @ResponseBody
-    public String getUserListByKeyword(int page,int limit,@RequestParam("keyword") String keyword){
-        System.out.println("获取的keyword="+keyword);
+    public String getUserListByKeyword(int page, int limit, @RequestParam("keyword") String keyword) {
+        System.out.println("获取的keyword=" + keyword);
         //添加数据到集合中
-        int myCount=userService.getKeyUserNumber(keyword);
-        int myLimit=limit;
-        int myPage=(page - 1) * limit;
-        List<User> keyUserList=userService.getUserListByKeyword(myPage,myLimit,keyword);
+        int myCount = userService.getKeyUserNumber(keyword);
+        int myLimit = limit;
+        int myPage = (page - 1) * limit;
+        List<User> keyUserList = userService.getUserListByKeyword(myPage, myLimit, keyword);
         //设置响应格式
-        JSONObject obj=new JSONObject();
+        JSONObject obj = new JSONObject();
         obj.put("code", 0);
         obj.put("msg", "");
         obj.put("count", myCount);
@@ -154,6 +157,7 @@ public class UserController {
     /**
      * 根据会员ID删除会员
      * 0：表示删除会员、会员卡信息成功  1：删除会员失败  2：删除会员成功，删除会员卡信息失败
+     *
      * @param userID 唯一标识
      * @return
      */
@@ -165,11 +169,11 @@ public class UserController {
         if (row == 1) {
             System.out.println("删除会员成功");
             //删除会员信息后同步删除会员卡信息
-            int code=cardService.delCardByUserId(userID);
-            if (code==1){
+            int code = cardService.delCardByUserId(userID);
+            if (code == 1) {
                 System.out.println("会员卡信息删除成功");
                 return 0;
-            }else {
+            } else {
                 System.out.println("会员卡信息删除失败");
                 return 2;
             }
@@ -223,15 +227,15 @@ public class UserController {
                     System.out.println("假会员");
                 }
                 //获取会员ID
-                int userID=(userService.getUserIdCard(users.getIdentityCard())).getUserID();
+                int userID = (userService.getUserIdCard(users.getIdentityCard())).getUserID();
                 //添加会员卡级别
-                int code=cardService.addUserCard(userID,rankName,validTime);
-                if (code==1){
+                int code = cardService.addUserCard(userID, rankName, validTime);
+                if (code == 1) {
                     System.out.println("会员卡级别添加成功");
                     return 0;
-                }else {
+                } else {
                     System.out.println("会员卡级别添加失败");
-                 return 3;
+                    return 3;
                 }
             } else {
                 System.out.println("新增失败：" + row);
@@ -245,54 +249,56 @@ public class UserController {
 
     /**
      * 根据会员ID查询会员详细信息，包括会员卡信息
+     *
      * @param userID
      * @return
      */
-    @RequestMapping(value = "getUserInfoById",method = RequestMethod.GET)
+    @RequestMapping(value = "getUserInfoById", method = RequestMethod.GET)
     @ResponseBody
-    public User getUserInfoById(int userID){
+    public User getUserInfoById(int userID) {
         return userService.getUserInfoById(userID);
     }
 
     /**
      * 修改会员信息
      * 0：表示会员、会员卡更新成功，1：更新失败，2：会员信息更新成功，会员卡信息更新失败
+     *
      * @param users 会员相关信息
      * @return
      */
-    @RequestMapping(value = "updateUserInfo",method = RequestMethod.PUT)
+    @RequestMapping(value = "updateUserInfo", method = RequestMethod.PUT)
     @ResponseBody
-    public int updateUserInfo(@RequestBody User users){
+    public int updateUserInfo(@RequestBody User users) {
         //定义会员卡有效期
-        String validTime=null;
-        System.out.println("获取的对象数据："+users);
+        String validTime = null;
+        System.out.println("获取的对象数据：" + users);
         //执行对会员信息修改动作
-        int row=userService.updateUserInfo(users.getUserName(),users.getUserPassword(),
-                users.getGender(),users.getIdentityCard(),users.getPhone(),users.getEmail(),
-                users.getActivateCode(),users.getExpireTime(),users.getUserID());
-        if (row==1){
+        int row = userService.updateUserInfo(users.getUserName(), users.getUserPassword(),
+                users.getGender(), users.getIdentityCard(), users.getPhone(), users.getEmail(),
+                users.getActivateCode(), users.getExpireTime(), users.getUserID());
+        if (row == 1) {
             System.out.println("修改会员信息成功");
             //修改完会员信息，更新会员对应会员卡信息
-              //对会员卡信息进行判断
-            if (users.getRankName().equals("铜牌会员")){
-                validTime="三个月";
+            //对会员卡信息进行判断
+            if (users.getRankName().equals("铜牌会员")) {
+                validTime = "三个月";
             }
-            if (users.getRankName().equals("银牌会员")){
-                validTime="半年";
+            if (users.getRankName().equals("银牌会员")) {
+                validTime = "半年";
             }
-            if (users.getRankName().equals("金牌会员")){
-                validTime="一年";
+            if (users.getRankName().equals("金牌会员")) {
+                validTime = "一年";
             }
             //执行修改
-            int code=cardService.updateCardByUserId(users.getRankName(),validTime,users.getUserID());
-            if (code==1){
+            int code = cardService.updateCardByUserId(users.getRankName(), validTime, users.getUserID());
+            if (code == 1) {
                 System.out.println("会员、会员卡信息更新完成");
                 return 0;
-            }else {
+            } else {
                 System.out.println("会员卡信息更新失败");
                 return 2;
             }
-        }else {
+        } else {
             System.out.println("修改会员信息失败");
             return 1;
         }

@@ -9,44 +9,13 @@
     <script src="../static/jquery/jquery-3.3.1.min.js"></script>
     <!--link css-->
     <link href="../static/css/adminLogin.css" rel="stylesheet"/>
+    <!--layui js-->
+    <script src="../static/layui/layui.js"></script>
     <!--icon 覆盖-->
     <link rel="shortcut icon" href="#"/>
+    <!--adminLogin js-->
+    <script src="../static/js/adminLogin.js"></script>
 </head>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //按钮点击确认登录
-        $("#adminLogin").click(function () {
-            $.ajax({
-                url: "/admin/adminLogin",
-                type: "POST",
-                data: {
-                    "serialNumber": $("#serialNumber").val(),
-                    "newPassword": $("#newPassword").val()
-                },
-                success(data) {
-                    if (data == 0) {
-                        alert("登入失败，请检查登陆身份");
-                        window.location.reload();
-                    } else {
-                        //进入主页面
-                        alert("登入成功,请妥善管理");
-                        location.href = "main.html";
-                    }
-                },
-                error() {
-                    alert("登入失败，请检查网络设置");
-                    window.location.reload();
-                }
-            })
-        });
-        //enter键绑定确认提交
-        $(document).keydown(function (event) {
-            if (event.keyCode == 13) {
-                document.getElementById("adminLogin").click();
-            }
-        })
-    });
-</script>
 <body>
 <div class="admin-form">
     <fieldset class="layui-elem-field layui-field-title">
@@ -56,7 +25,8 @@
                 <div class="layui-form-item layui-form-pane">
                     <label class="layui-form-label layui-icon la">&#xe66f;</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="serialNumber" id="serialNumber" lay-verify="required" placeholder="请输入账号"
+                        <input type="text" name="serialNumber" id="serialNumber" lay-verify="required"
+                               placeholder="请输入账号"
                                class="layui-input">
                     </div>
                 </div>
@@ -81,18 +51,5 @@
         </div>
     </fieldset>
 </div>
-<script src="../static/layui/layui.js"></script>
-<script>
-    //Demo
-    layui.use('form', function () {
-        var form = layui.form;
-        //监听提交
-        form.on('submit(formDemo)', function (data) {
-            //文字弹窗，获取文本弹窗
-            // layer.msg(JSON.stringify(data.field));
-            return false;
-        });
-    });
-</script>
 </body>
 </html>

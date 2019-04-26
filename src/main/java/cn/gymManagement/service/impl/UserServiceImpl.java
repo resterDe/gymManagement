@@ -15,7 +15,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户登录
-     * @param userAccount 账号
+     *
+     * @param userAccount  账号
      * @param userPassword 密码，初始密码为身份证号后六位
      * @return
      */
@@ -26,15 +27,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取全部会员信息
+     *
      * @return
      */
     @Override
-    public List<User> getUserList(int pages,int limits) {
-        return userMapper.getUserList(pages,limits);
+    public List<User> getUserList(int pages, int limits) {
+        return userMapper.getUserList(pages, limits);
     }
 
     /**
      * 获取会员总条数
+     *
      * @return
      */
     @Override
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据id删除对应的会员
+     *
      * @param userID 唯一标识
      * @return
      */
@@ -54,16 +58,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 新增会员
-     * @param userName 会员姓名
-     * @param userAccount 会员账号
+     *
+     * @param userName     会员姓名
+     * @param userAccount  会员账号
      * @param userPassword 会员密码
-     * @param gender 性别
+     * @param gender       性别
      * @param identityCard 身份证号
-     * @param phone 电话
-     * @param email 邮箱
+     * @param phone        电话
+     * @param email        邮箱
      * @param activateCode 是否激活，0 表示未激活，1 表示已激活
-     * @param regTime 注册时间
-     * @param expireTime 到期时间
+     * @param regTime      注册时间
+     * @param expireTime   到期时间
      * @return
      */
     @Override
@@ -79,6 +84,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据身份证号查询会员是否存在
+     *
      * @param identityCard
      * @return
      */
@@ -89,6 +95,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据会员账号，判断是否已经存在该账号
+     *
      * @param userAccount
      * @return
      */
@@ -99,6 +106,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据会员id查询会员信息，包括会员卡信息
+     *
      * @param userID
      * @return
      */
@@ -109,6 +117,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改会员相关信息
+     *
      * @param userName
      * @param userPassword
      * @param gender
@@ -131,6 +140,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 关键字查询会员信息
+     *
      * @param keyword 关键字包括：会员账户，会员姓名
      * @return
      */
@@ -141,6 +151,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取模糊查询数据总数
+     *
      * @param keyword
      * @return
      */
@@ -151,6 +162,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据会员ID 查询会员信息
+     *
      * @param userID
      * @return
      */

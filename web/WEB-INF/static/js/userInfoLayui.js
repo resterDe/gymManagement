@@ -239,7 +239,7 @@ function onAddBtn() {
         // btnAlign: 'c',
         content: $("#add-main"),
         success: function (layero, index) {
-            console.log("成功弹");
+            console.log("成功弹出");
         },
         yes: function () {
         }

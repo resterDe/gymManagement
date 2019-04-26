@@ -12,8 +12,10 @@ import java.util.List;
 public class CardServiceImpl implements CardService {
     @Autowired
     private CardMapper cardMapper;
+
     /**
      * 新增会员卡成员
+     *
      * @param userID
      * @param rankName
      * @param validTime
@@ -26,6 +28,7 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 根据userID删除会员卡信息
+     *
      * @param userID
      * @return
      */
@@ -36,17 +39,19 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 根据会员ID修改会员卡信息
+     *
      * @param rankName
      * @param validTime
      * @return
      */
     @Override
-    public int updateCardByUserId(String rankName, String validTime,int userID) {
-        return cardMapper.updateCardByUserId(rankName, validTime,userID);
+    public int updateCardByUserId(String rankName, String validTime, int userID) {
+        return cardMapper.updateCardByUserId(rankName, validTime, userID);
     }
 
     /**
      * 根据会员类型查询总数
+     *
      * @param rankName
      * @return
      */
@@ -57,6 +62,7 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 根据会员卡类型查询会员信息
+     *
      * @param rankName
      * @return
      */
@@ -67,6 +73,7 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 查询会员卡类型所有会员
+     *
      * @param pages
      * @param limits
      * @return
@@ -78,6 +85,7 @@ public class CardServiceImpl implements CardService {
 
     /**
      * 查询会员卡总数
+     *
      * @return
      */
     @Override
