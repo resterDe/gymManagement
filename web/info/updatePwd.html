@@ -12,6 +12,60 @@
     <!--icon 覆盖-->
     <link rel="shortcut icon" href="#"/>
 </head>
+<script>
+    //检验新密码与确认是否一样
+    function newAndCon() {
+        var newPwd=$("#newPassword").val();
+        var conPwd=$("#conPassword").val();
+        if (newPwd==conPwd){
+            //新密码与确认新密码一致，通过执行修改
+            updatePwd();
+        } else {
+            //新密码与确认密码不一致
+            layui.use('layer',function () {
+                var layer=layui.layer;
+                layer.msg("新密码与确认密码不一致");
+                //清空框内值
+                $("#newPassword").val("");
+                $("#conPassword").val("");
+            });
+        };
+    };
+    //修改密码
+    function updatePwd() {
+        $.ajax({
+            url:"/user/updatePwd",
+            type:"POST",
+            data:{
+                _method:"PUT",
+                "identityCard":$("#identityCard").val(),
+                "newPassword":$("#newPassword").val()
+            },
+            success(data) {
+                if (data==0){
+                    console.log("修改成功");
+                    layui.use('layer',function () {
+                        var layer = layui.layer;
+                        layer.msg("修改成功,请前往主页登录");
+                    });
+                    //设置定时器成功3秒跳转
+                    var times=setInterval(function () {
+                        //三秒回到登录页面登录
+                        window.location.href="../clientView/userLogin.html";
+                    },1000);
+                    //关闭计时器
+                    clearInterval(times);
+                } else if (data==2) {
+                    console.log("不存在该会员");
+                    alert("不存在该会员");
+                }else {
+                    console.log("修改失败，请与管理员联系");
+                    alert("修改失败，请与管理员联系");
+                }
+            }
+        })
+    }
+</script>
 <body>
 <div style="margin-top:10%;margin-left: 33%;width: 500px;border: 1px solid #393D49">
     <div class="layui-tab-content">
@@ -21,34 +75,40 @@
                 <div class="layui-field-box">
                     <form class="layui-form">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">原密码</label>
-                            <div class="layui-input-block">
-                                <input type="password" id="password" lay-verify="required"
-                                       placeholder="请输入原密码" class="layui-input"
-                                       style="width: 35%">
+                            <label class="layui-form-label" style="width: 100px">您的身份证</label>
+                            <div class="layui-input-inline" style="width: 240px">
+                                <input type="text" name="identityCard" id="identityCard" lay-verify="identity"
+                                       placeholder="请输入合法的身份证号"
+                                       autocomplete="off"
+                                       class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">新密码</label>
-                            <div class="layui-input-block">
+                            <label class="layui-form-label" style="width: 100px">您的新密码</label>
+                            <div class="layui-input-inline" style="width: 240px">
                                 <input type="password" id="newPassword" lay-verify="required"
                                        placeholder="请输入新密码" class="layui-input"
-                                       style="width: 35%">
+                                >
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">确认新密码</label>
-                            <div class="layui-input-block">
+                            <label class="layui-form-label" style="width: 100px">确认新密码</label>
+                            <div class="layui-input-inline" style="width: 240px">
                                 <input type="password" id="conPassword" lay-verify="required"
                                        placeholder="请确认新密码" class="layui-input"
-                                       style="width: 35%">
+                                >
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn" id="updateBtu" type="button"
-                                        lay-submit lay-filter="formDemo">立即修改
+                                        lay-submit lay-filter="updatePwd" >立即修改
                                 </button>
+                                <div style="margin-top: 2%;">
+                                    <a href="../index.html" style="color: #007DDB;">
+                                        <span>回到首页</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -57,5 +117,38 @@
         </div>
     </div>
 </div>
+<script>
+    //JavaScript代码区
+    layui.use(['element', 'form', 'layedit', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        var element = layui.element;
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            },
+            pass: [
+                /^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
+            ],
+            content: function (value) {
+                layedit.sync(editIndex);
+            }
+        });
+
+        //监听提交
+        form.on('submit(updatePwd)', function (data) {
+            //监听添加按钮
+            //检查新密码与确认密码是否一致
+            newAndCon();
+            return false;
+        })
+    });
+</script>
 </body>
 </html>

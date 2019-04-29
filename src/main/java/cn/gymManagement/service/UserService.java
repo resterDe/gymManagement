@@ -36,4 +36,6 @@ public interface UserService {
     int getKeyUserNumber(@Param("keyword") String keyword);
 
     User getUsersById(@Param("userID") int userID);
+
+    int updatePwd(@Param("userPassword")String userPassword,@Param("identityCard")String identityCard);
 }

@@ -170,4 +170,15 @@ public class UserServiceImpl implements UserService {
     public User getUsersById(int userID) {
         return userMapper.getUsersById(userID);
     }
+
+    /**
+     * 以身份证为条件修改会员密码
+     * @param userPassword
+     * @param identityCard
+     * @return
+     */
+    @Override
+    public int updatePwd(String userPassword, String identityCard) {
+        return userMapper.updatePwd(userPassword, identityCard);
+    }
 }

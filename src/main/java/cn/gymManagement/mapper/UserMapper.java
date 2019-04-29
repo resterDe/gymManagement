@@ -159,4 +159,13 @@ public interface UserMapper {
      */
     @Select("select * from t_user where userID=#{userID}")
     User getUsersById(@Param("userID") int userID);
+
+    /**
+     * 以身份证为条件修改会员密码
+     * @param userPassword
+     * @param identityCard
+     * @return
+     */
+    @Update("update t_user set userPassword=#{userPassword} where identityCard=#{identityCard}")
+    int updatePwd(@Param("userPassword")String userPassword,@Param("identityCard")String identityCard);
 }

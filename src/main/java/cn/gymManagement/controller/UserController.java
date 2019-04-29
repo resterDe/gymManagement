@@ -303,4 +303,31 @@ public class UserController {
             return 1;
         }
     }
+
+    /**
+     * 会员修改密码 依据身份证号
+     * @param identityCard 身份证号码
+     * @param newPassword 新密码
+     * @return
+     */
+    @RequestMapping(value = "updatePwd",method = RequestMethod.PUT)
+    @ResponseBody
+    public int updatePwd(String identityCard,String newPassword){
+        //判断是否存在该会员
+        User userIdCards = userService.getUserIdCard(identityCard);
+        if (userIdCards==null){
+            System.out.println("不存在该会员");
+            return 2;
+        }else {
+            //开始修改
+            int row=userService.updatePwd(identityCard, newPassword);
+            if (row==1){
+                System.out.println("修改成功");
+                return 0;
+            }else {
+                System.out.println("修改失败");
+                return 1;
+            }
+        }
+    }
 }
