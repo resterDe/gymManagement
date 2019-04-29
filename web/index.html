@@ -13,6 +13,10 @@
     <script src="static/js/msg.js"></script>
     <!--index js-->
     <script src="static/js/index.js"></script>
+    <!--layui js-->
+    <script src="static/layui/layui.js"></script>
+    <!--layui CSS-->
+    <!--<link rel="stylesheet" href="static/layui/css/layui.css">-->
 </head>
 <body>
 <div class="home-head">
@@ -35,11 +39,11 @@
     <!--侧边栏广告-->
     <div id="div1" class="cb">
         <div>
-            <ol id="t_ol">
+            <ol id="t_ol" style="margin-left: 2%">
                 <script id="gonggao" type="text/html">
                     {{ each }}
                     <li>
-                        <a id="{{ $value.annID }}">{{ $value.headline }}</a>
+                        <a onclick="onQuery('{{ $value.annID }}')">{{ $value.headline }}</a>
                     </li>
                     {{ /each }}
                 </script>
@@ -81,5 +85,15 @@
         </div>
     </div>
 </div>
+<!--信息窗口弹出-->
+<div id="queryInfo" style="display: none"></div>
+<!--信息弹出模板-->
+<script type="text/html" id="annDataInfo">
+    <div style="height: 20px"></div>
+    <div style="text-align: center">
+        <div>{{ d.annInfoList.content }}</div>
+    </div>
+    <div style="height: 20px"></div>
+</script>
 </body>
 </html>

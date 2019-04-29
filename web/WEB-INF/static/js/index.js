@@ -107,4 +107,65 @@ $(document).ready(function () {
             location.href = "clientView/courseList.html";
         }
     })
-})
+});
+//弹窗实现公告信息
+// 绑定查看点击事件
+function onQuery(annID) {
+    $.ajax({
+        url:"/announcement/getAnnById",
+        type:"GET",
+        data:{
+            "annID":annID
+        },
+        success(data) {
+            console.log("查看成功："+data);
+            onInfo(data);
+        },
+        error(){
+            alert("网络出错，请稍后重试");
+        }
+    })
+};
+//渲染信息
+function onInfo(data) {
+    layui.use('laytpl', function () {
+        var laytpl = layui.laytpl;
+        var annData = {
+            //数据
+            "annInfoList": data
+        };
+        var getTpl = annDataInfo.innerHTML, view = $("#queryInfo");
+        laytpl(getTpl).render(annData, function (result) {
+            //清空元素内部html代码
+            view.empty();
+            //重新添加
+            view.append(result);
+            //弹窗显示
+            onAnn();
+        })
+    });
+}
+//创建弹窗
+function onAnn() {
+    layui.use('layer', function () {
+        var layer = layui.layer;
+
+        //建立查询信息弹框
+        layer.open({
+            type: 1,
+            title: "公告详细信息",
+            closeBtn: false,
+            offset: ['100px'],
+            shift: 1,
+            area: ['600px'],
+            shadeClose: true,
+            content: $("#queryInfo"),
+            success: function (layero, index) {
+                // layer.msg("查询成功");
+            },
+            yes: function () {
+
+            }
+        })
+    });
+}

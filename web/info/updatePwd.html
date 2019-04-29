@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员密码修改</title>
+    <!--layui CSS-->
+    <link href="../static/layui/css/layui.css" rel="stylesheet"/>
+    <!--Jquery-->
+    <script src="../static/jquery/jquery-3.3.1.min.js"></script>
+    <!--layui js-->
+    <script src="../static/layui/layui.js"></script>
+    <!--icon 覆盖-->
+    <link rel="shortcut icon" href="#"/>
+</head>
+<body>
+<div style="margin-top:10%;margin-left: 33%;width: 500px;border: 1px solid #393D49">
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>会员修改密码</legend>
+                <div class="layui-field-box">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">原密码</label>
+                            <div class="layui-input-block">
+                                <input type="password" id="password" lay-verify="required"
+                                       placeholder="请输入原密码" class="layui-input"
+                                       style="width: 35%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-block">
+                                <input type="password" id="newPassword" lay-verify="required"
+                                       placeholder="请输入新密码" class="layui-input"
+                                       style="width: 35%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">确认新密码</label>
+                            <div class="layui-input-block">
+                                <input type="password" id="conPassword" lay-verify="required"
+                                       placeholder="请确认新密码" class="layui-input"
+                                       style="width: 35%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" id="updateBtu" type="button"
+                                        lay-submit lay-filter="formDemo">立即修改
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+</body>
+</html>
